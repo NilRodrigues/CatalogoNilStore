@@ -1,0 +1,2463 @@
+/* ==========================================================================
+   BASE / FUNDAMENTOS
+   - Variáveis CSS para cores, raios e sombras (facilitam manutenção temática)
+   - Reset mínimo (box-sizing, altura do documento)
+   - Tipografia e cores globais
+   - Utilitário .container com largura máxima fluida
+   -------------------------------------------------------------------------- */
+
+:root{
+   --shadow:0 6px 18px rgba(0,0,0,.08); /* sombra suave usada em cards/caixas */
+}
+
+/* Reset básico: garante previsibilidade de layout ao incluir paddings/bordas
+   na largura/altura calculadas, e altura total do documento para padrões
+   de 100vh em páginas grandes. */
+*{box-sizing:border-box}
+html { height: 100%; }
+body { min-height: 100vh; }
+
+/* Texto principal, paleta global e altura de linha confortável.
+   Observação: fontes do Google são aplicadas no HTML (index.html). */
+body{
+  margin:0;
+  font-family: 'Open Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color:#00171F;
+  background:#ffffff;
+  line-height:1.5;
+}
+
+/* Imagens responsivas por padrão e links herdando cor do contexto. */
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+/* Container centraliza conteúdo com largura máxima fluida:
+   - até 1200px, mas com respiro lateral de 8% (92% de largura). */
+.container{width:min(1200px,92%);margin-inline:auto}
+
+
+/* ==========================================================================
+   SPINNER DE CARREGAMENTO
+   - Overlay de tela cheia exibido durante carregamentos
+   - Classe .show controla visibilidade (opacidade/visibility)
+   - Animação de rotação para o ponto central
+   -------------------------------------------------------------------------- */
+.spinner{
+  position:fixed;
+  inset:0;
+  display:grid;
+  place-items:center;
+  background:rgba(255,255,255,1);
+  opacity:0;
+  visibility:hidden;transition:.35s ease;
+  z-index:9999; /* acima de todos os elementos da interface */
+}
+/* Estado visível do spinner */
+.spinner.show{
+  opacity:1;
+  visibility:visible
+}
+/* Ponto giratório */
+.spinner-dot{
+  width:3rem;
+  height:3rem;
+  border-radius:50%;
+  border:4px solid;
+  border-top-color:transparent;
+  animation:spin 1s linear infinite; /* rotação contínua */
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+
+/* ==========================================================================
+   TOPBAR (BARRA SUPERIOR FIXA)
+   - Fixa no topo com sombra de borda inferior
+   - Define padding no <body> para não sobrepor conteúdo
+   - Layout flexível com três regiões: esquerda, centro e direita
+   -------------------------------------------------------------------------- */
+/* 🔹 Topbar fixa no topo */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 0.9rem;
+  z-index: 10000;
+  height: 45px; /* Defina altura fixa */
+}
+
+/* 🔹 Compensa altura das barras no conteúdo */
+body {
+  padding-top: 195px; /* mantém o espaço abaixo da topbar/brandbar/navbar */
+}
+
+/* Container interno organiza as três áreas em linha (flex) */
+.topbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 20px;
+}
+
+/* Estilização de links e separadores na topbar */
+.topbar a {
+  text-decoration: none;
+}
+/* Regiões esquerda, centro e direita */
+.muted {
+  color: #6c757d;
+}
+/* Separador simples entre links */
+.sep {
+  margin: 0 6px;
+  color: #adb5bd;
+}
+
+
+/* ==========================================================================
+   DROPDOWN (MENU DO USUÁRIO)
+   - Botão discreto e profissional
+   - Menu posicionando absoluto abaixo do botão
+   - Animação leve de entrada
+   - Estado "open" controla exibição
+   -------------------------------------------------------------------------- */
+.dropdown {
+  position: relative;
+}
+
+/* Botão com aparência clean, largura mínima e tipografia discreta */
+.dropdown-toggle {
+  background: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  padding: 5px 22px;
+  min-width: 180px;
+  font-size: 0.8rem;
+  font-weight: 100;
+  cursor: pointer;
+  color: #212529;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+/* Efeito de hover com leve realce e elevação */
+.dropdown-toggle:hover {
+  background: #e9ecef;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+/* Painel do menu: largura da do botão, sombra sutil e borda leve */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 180px;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  padding: 6px 0;
+  display: none;
+  flex-direction: column;
+  animation: dropdownFade 0.2s ease forwards;
+  z-index: 10002;
+}
+/* Itens do menu com padding confortável e transições suaves */
+.dropdown-menu a {
+  padding: 10px 16px;
+  border-radius: 0;
+  color: #212529;
+  transition: background 0.2s, color 0.2s;
+}
+/* Efeito de hover com realce de fundo e cor primária */
+.dropdown-menu a:hover {
+  background: #f1f3f5;
+  color: #00a8e8;
+}
+
+/* Animação suave de fade + leve deslocamento vertical */
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estado aberto do dropdown */
+.dropdown.open .dropdown-menu {
+  display: flex;
+}
+
+/* Responsividade básica da topbar: empilha itens e mantém menu à direita */
+@media (max-width: 768px) {
+  .topbar {
+    height: auto;
+    min-height: 45px;
+  }
+  /* Container empilha itens verticalmente */
+  .topbar .container {
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 15px;
+  }
+  /* Centraliza todas as regiões */
+  .topbar-left,
+  .topbar-center,
+  .topbar-right {
+    width: 100%;
+    text-align: center;
+  }
+  /* Centraliza itens na direita */
+  .topbar-right {
+    display: flex;
+    justify-content: center;
+  }
+  /* Ajustes no botão dropdown */
+  .dropdown-toggle {
+    min-width: 150px;
+    font-size: 0.75rem;
+    padding: 5px 15px;
+  }
+  /* Menu centralizado abaixo do botão */
+  .dropdown-menu {
+    width: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  /* Compensa altura das barras no conteúdo */
+  body {
+    padding-top: 230px;
+  }
+}
+/* Ajustes para telas muito pequenas */
+@media (max-width: 480px) {
+  .topbar .container {
+    padding: 8px 10px;
+  }
+  /* Reduz fonte das regiões */
+  .topbar-left,
+  .topbar-center {
+    font-size: 0.8rem;
+  }
+  /* Ajustes no botão dropdown */
+  .dropdown-toggle {
+    min-width: 130px;
+    font-size: 0.7rem;
+    padding: 4px 12px;
+  }
+}
+
+
+/* ==========================================================================
+   BRANDBAR (ESTILO MERCADO LIVRE) + BUSCA
+   - Faixa clara com logo, busca e ícones rápidos
+   - Campo de busca com foco destacado (borda azul)
+   - Ícones com efeito de hover (scale)
+   -------------------------------------------------------------------------- */
+/* ===== Brandbar ===== */
+.brandbar.mercadolivre {
+  background: #fcfcfc;
+  padding: 12px 0;
+  position: fixed;
+  top: 45px; /* Ajustado para ficar logo abaixo da topbar */
+  width: 100%;
+  z-index: 9999;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  height: 68px; /* Defina altura fixa */
+}
+/* Container interno com grid flexível */
+.ml-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+/* Logo com tamanho fixo */
+.ml-logo {
+  height: 32px;
+}
+
+/* Caixa de busca com borda suave; ao focar, recebe aro azul (focus ring) */
+.ml-search {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: min(600px, 90%);
+  overflow: hidden;
+  box-shadow: 0 0 0 2px transparent;
+  transition: box-shadow 0.2s ease;
+}
+/* Efeito de foco com aro azul */
+.ml-search:focus-within {
+  box-shadow: 0 0 0 2px #00a8e8;
+}
+/* Estilo do input de busca */
+.ml-search input {
+  flex: 1;
+  border: none;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  outline: none;
+}
+/* Botão de busca com ícone */
+.ml-btn {
+  border: none;
+  background: none;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #555;
+}
+/* Efeito de hover para o botão */
+.ml-btn:hover { 
+  color: #000;
+ }
+ /* Ícone do botão com tamanho fixo */
+.ml-btn img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* Responsividade da Brandbar */
+@media (max-width: 992px) {
+  .brandbar.mercadolivre {
+    height: auto;
+    min-height: 68px;
+    padding: 10px 0;
+  }
+  
+  .ml-grid {
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .ml-logo {
+    height: 28px;
+  }
+  
+  .ml-search {
+    width: 100%;
+    order: 3;
+    flex-basis: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .brandbar.mercadolivre {
+    top: auto;
+    position: fixed;
+    padding: 8px 0;
+  }
+  
+  .ml-grid {
+    gap: 10px;
+    padding: 0 10px;
+  }
+  
+  .ml-logo {
+    height: 24px;
+  }
+  
+  .ml-search input {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+  
+  .ml-btn {
+    padding: 8px 10px;
+  }
+  
+  body {
+    padding-top: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ml-grid {
+    gap: 8px;
+  }
+  
+  .ml-logo {
+    height: 22px;
+  }
+  
+  .ml-search input {
+    font-size: 0.8rem;
+    padding: 7px 10px;
+  }
+}
+
+
+/* ==========================================================================
+   NAVBAR / BARRA DE NAVEGAÇÃO
+   - Faixa azul em gradiente, "gruda" no topo ao rolar (sticky)
+   - Grid flex entre categorias (opcional) e menu principal
+   - Links com hover levemente elevado
+   -------------------------------------------------------------------------- */
+/* 🔹 Navbar fixa abaixo da brandbar */
+.navwrap {
+  position: fixed;
+  top: 113px; /* 45 + 68 */
+  left: 0;
+  width: 100%;
+  background: linear-gradient(135deg, #003459 0%, #007ea7 100%);
+  z-index: 9998;
+}
+/* Container interno com grid flexível */
+.nav-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 64px;
+}
+
+
+/* ==========================================================================
+   CATEGORIAS (BOTÃO + LISTA)
+   - Botão com transparência e feedback visual (hover/expanded)
+   - Lista suspensa com cartão flutuante e badges por item
+   -------------------------------------------------------------------------- */
+/* ===== CATEGORIAS ===== */
+.categories {
+  position: relative;
+}
+/* Botão de categorias com visual translúcido e borda suave */
+.cat-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 0.3px;
+}
+/* Efeito de hover com leve elevação e realce */
+.cat-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+/* Estado expandido com fundo mais claro */
+.cat-toggle[aria-expanded="true"] {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+/* Ícone de seta rotaciona ao expandir */
+.cat-toggle-icon {
+  font-size: 1.2em;
+  transition: transform 0.3s;
+}
+/* Rotação da seta quando expandido */
+.cat-toggle[aria-expanded="true"] .cat-toggle-icon {
+  transform: rotate(90deg);
+}
+/* Lista de categorias como cartão flutuante */
+.cat-list {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  width: 280px;
+  background: #fff;
+  color: #212529;
+  border-radius: 16px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  list-style: none;
+  padding: 8px;
+  z-index: 999;
+  animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: top;
+}
+/* Animação de entrada suave */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+/* Esconde a lista quando necessário */
+.cat-list[hidden] {
+  display: none !important;
+}
+/* Estilo dos itens da lista com badges */
+.cat-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+/*  Efeito de hover com leve realce e deslocamento */
+.cat-list li:hover {
+  background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
+  transform: translateX(4px);
+}
+/* Estilo do link e do badge */
+.cat-list li a {
+  color: #212529;
+  text-decoration: none;
+  font-weight: 600;
+  flex: 1;
+  font-size: 0.95rem;
+}
+/* Estilo do badge com contagem */
+.cat-list li span {
+  background: #00a8e8;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  min-width: 32px;
+  text-align: center;
+}
+
+
+/* ==========================================================================
+   NAVEGAÇÃO (LINKS PRINCIPAIS)
+   - Menu horizontal à direita
+   - Primeiro item empurra demais para a esquerda (margin-right:auto)
+   - Hover com leve realce de fundo translúcido
+   -------------------------------------------------------------------------- */
+/* ===== NAVBAR ===== */
+.navbar {
+  flex: 1;
+}
+/* Lista de navegação em linha (flex) */
+.nav-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  list-style: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+/* Primeiro item empurra os demais para a direita */
+.nav-list li:first-child {
+  margin-right: auto;
+}
+/* Estilo dos links com padding e bordas arredondadas */
+.nav-list a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  position: relative;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+}
+/* Efeito de hover com fundo translúcido e leve elevação */
+.nav-list a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+
+/* ==========================================================================
+   BOTÃO CTA "FAÇA SUA ENCOMENDA 3D"
+   - Visual destacado com gradiente, sombra e seta animada no :after
+   -------------------------------------------------------------------------- */
+/* ===== BOTÃO CTA ===== */
+.btn-3d {
+  background: #003459 !important;
+  background: linear-gradient(135deg, #003459 0%, #007ea7 100%) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  padding: 12px 24px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+/* Efeito de hover com elevação e mudança de cor */
+.btn-3d:hover {
+  background: #003459 !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3) !important;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+/* Efeito de clique */
+.btn-3d::after {
+  content: '→';
+  font-size: 1.2em;
+  transition: transform 0.2s;
+}
+/* Animação da seta ao hover */
+.btn-3d:hover::after {
+  transform: translateX(4px);
+}
+
+
+/* ==========================================================================
+   RESPONSIVIDADE DA NAVBAR/CATEGORIAS
+   - Ajustes progressivos para tablets e smartphones
+   - Botões compactam, cat-list reduz largura, CTA ocupa 100%
+   -------------------------------------------------------------------------- */
+  /* Responsivo para telas menores */
+@media (max-width: 992px) {
+  .navwrap {
+    top: auto;
+    position: fixed;
+  }
+  
+  .nav-grid {
+    gap: 16px;
+    min-height: auto;
+    padding: 8px 0;
+  }
+  
+  .nav-list {
+    gap: 4px;
+  }
+  
+  .nav-list a {
+    padding: 8px 14px;
+    font-size: 0.9rem;
+  }
+  
+  .btn-3d {
+    padding: 10px 18px !important;
+    font-size: 0.9rem !important;
+  }
+  
+  .cat-toggle {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+  
+  .cat-list {
+    width: 260px;
+  }
+  
+  body {
+    padding-top: 270px;
+  }
+}
+
+/* Responsivo para tablets e smartphones */
+@media (max-width: 768px) {
+  .navwrap {
+    padding: 8px 0;
+  }
+  
+  .nav-grid {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .categories {
+    order: 1;
+    width: auto;
+  }
+  
+  .navbar {
+    order: 2;
+    width: 100%;
+    margin-top: 8px;
+  }
+  
+  .nav-list {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  
+  .nav-list li:first-child {
+    margin-right: 0;
+    width: 100%;
+  }
+  
+  .nav-list li:first-child a {
+    text-align: center;
+  }
+  
+  .nav-list a {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+  
+  .btn-3d {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 20px !important;
+    font-size: 0.85rem !important;
+  }
+  
+  .cat-list {
+    width: 240px;
+  }
+  
+  body {
+    padding-top: 290px;
+  }
+}
+
+/* Responsivo para telas muito pequenas */
+@media (max-width: 480px) {
+  .navwrap {
+    padding: 6px 0;
+  }
+  
+  .nav-grid {
+    gap: 8px;
+  }
+  
+  .cat-toggle {
+    padding: 7px 12px;
+    font-size: 0.8rem;
+  }
+  
+  .nav-list {
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .nav-list li {
+    width: 100%;
+  }
+  
+  .nav-list a {
+    display: block;
+    text-align: center;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+  
+  .btn-3d {
+    padding: 9px 16px !important;
+    font-size: 0.8rem !important;
+  }
+  
+  .cat-list {
+    width: 220px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .cat-list li {
+    padding: 10px 12px;
+  }
+  
+  .cat-list li a {
+    font-size: 0.85rem;
+  }
+  
+  .cat-list li span {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+  }
+  
+  body {
+    padding-top: 310px;
+  }
+}
+
+
+/* ==========================================================================
+   CAROUSEL (HERO) + PROMO LATERAL
+   - Grade de duas colunas: slider (flexível) + card promo (340px)
+   - Slider com botões de navegação, paginação (dots) e conteúdo textual
+   - Promo lateral com badge (economia) e conteúdo de oferta
+   - NOVO: Links clicáveis para produtos
+   -------------------------------------------------------------------------- */
+/* ===== CAROUSEL ===== */
+.carousel{
+  background:#FFFFFF;
+  padding:50px 0
+}
+/* Grade do carousel: slider + promo lateral */
+.carousel-grid{
+  display:grid;
+  grid-template-columns:1fr 400px;
+  gap:24px;
+  align-items:stretch
+}
+/* Container principal do slider */
+.slider{
+  position:relative;
+  overflow:hidden;
+  border-radius:16px;
+  background:#fff;
+  box-shadow:var(--shadow);
+  height: 400px; /* defina conforme desejar */
+}
+/* Container dos slides - layout em linha (flex) */
+.slides{
+  display:flex;
+  transition:transform .6s ease
+}
+/* Cada slide individual */
+.slide{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  min-width:100%;
+  align-items:center
+  }
+/* Imagem do slide */
+.slide-media img{
+  width:100%;
+  height:100%;
+  object-fit:cover
+}
+/* Conteúdo textual do slide */
+.slide-content{
+  padding:28px 28px 36px
+}
+/* Kicker (texto pequeno acima do título) */
+.slide-content .kicker{
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:#00171F;
+  margin:0 0 12px
+}
+/*Título e descrição do slide*/
+.slide-content h2{
+  font:700 2.2rem 'Roboto', sans-serif;
+  margin:0 0 12px;
+  color:#00171F;
+}
+.slide-content p{
+  margin:0 0 18px;
+  color:#333
+}
+/* Botão do carousel ("Comprar agora") */
+.blue-btn {
+  background: linear-gradient(135deg, #003459, #007ea7);
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  padding: 12px 26px;
+  border-radius: 50px; /* 🔹 formato arredondado */
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+/* Hover com leve elevação e mudança de cor */
+.blue-btn:hover {
+  background: linear-gradient(135deg, #01548f, #0094c5);
+  transform: translateY(-3px); /* 🔹 leve elevação */
+  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.4);
+}
+/* Active com efeito de clique */
+.blue-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 3px 8px rgba(0, 123, 255, 0.3);
+}
+/* Preço do slide */
+.carousel-price {
+  margin: 8px 0 14px;
+  font-size: 1.1rem;
+  color: #00af09;
+}
+/* Preço riscado (desconto) e preço atual */
+.carousel-price del {
+  color: #ff0202;
+  margin-right: 8px;
+}
+/* Preço em destaque (strong) */
+.carousel-price strong {
+  color: #00af09;
+  font-weight: 700;
+}
+/* Botões de navegação do slider */
+.slider .nav {
+  position: absolute;
+  bottom: 10px;
+  right: 16px;
+  width: 42px;
+  height: 42px;
+  border-radius: 40%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 10;
+  border: 1px solid rgba(255, 255, 255, 0.103);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: #00171F;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.11);
+  transition: all 0.3s ease;
+}
+/* Posicionamento dos botões prev/next */
+.slider .nav.prev{
+  right:70px
+}
+/* Paginação em dots (botões circulares) */
+.dots{
+  position:absolute;
+  left:18px;
+  bottom:18px;
+  display:flex;
+  gap:8px;
+  z-index:10
+}
+/* Estilo dos botões dos dots */
+dots button{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  border:0;
+  background:#ced4da;
+  cursor:pointer
+}
+/* Dot ativo com cor primária */
+
+.dots button[aria-selected="true"] {
+  background: #00a8e8;
+  box-shadow: 0 0 8px #a8a7a7;
+}
+/* ==========================================================================
+  PROMO LATERAL
+   -------------------------------------------------------------------------- */
+/* Card promocional lateral */
+
+.promo{
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  color:#00af09;                 /* texto claro sobre a foto */
+  background: transparent;    /* sem fundo sólido */
+  aspect-ratio: 4;        /* altura do card (ajuste se quiser) */
+  max-width: 450px;
+}
+
+/* Link da promo - envolve imagem e conteúdo */
+.promo-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  transition: transform 0.3s ease;
+}
+
+
+/* imagem ocupa todo o card */
+.promo-image{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.promo-image img{
+  width:100%; height:100%; object-fit:cover;
+  filter:brightness(.8);
+  transition:filter .3s ease;
+}
+.promo:hover .promo-image img{ filter:brightness(1); }
+
+/* camada de gradiente para legibilidade */
+.promo::after{
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,.65) 100%);
+  z-index:1;
+}
+
+/* badge por cima */
+.promo-badge{
+  position:absolute; top:14px; left:14px; z-index:3;
+  display:flex; gap:10px; align-items:center;
+}
+
+/* Estilo dos elementos da badge */
+.promo-badge .save{
+  background:#00af09;
+  color:#ffffff;
+  border-radius:999px;
+  padding:6px 12px
+}
+
+/* conteúdo por cima da imagem */
+.promo-content{
+  position:absolute; inset:0; z-index:2;
+  padding:16px;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  gap:8px;
+}
+/* Título da badge com efeito brilhoso */
+.promo-badge .title {
+  font-weight: 900;
+  background: linear-gradient(90deg,
+    #00a8e8 0%,
+    #007ea7 25%,
+    #003459 50%,
+    #00171F 75%,
+    #00a8e8 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 2.5s linear infinite;
+}
+/* Animação do brilho */
+@keyframes shine {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+/* textos */
+.promo-content .category{ color:#ffffff; }
+.promo-content .name{ color:#ffffff; font-weight:700; font-size:1.25rem; }
+.promo .price del{ color:#ff0202; margin-right:8px; }
+
+/* Responsividade do Carousel */
+@media (max-width: 1200px) {
+  .carousel-grid {
+    grid-template-columns: 1fr 350px;
+    gap: 20px;
+  }
+  
+  .slider {
+    height: 380px;
+  }
+  
+  .slide-content h2 {
+    font-size: 2rem;
+  }
+  
+  .promo {
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 992px) {
+  .carousel {
+    padding: 40px 0;
+  }
+  
+  .carousel-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .slider {
+    height: 360px;
+  }
+  
+  .slide-content {
+    padding: 24px;
+  }
+  
+  .slide-content h2 {
+    font-size: 1.8rem;
+  }
+  
+  .promo {
+    max-width: 100%;
+    aspect-ratio: 3;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel {
+    padding: 30px 0;
+  }
+  
+  .slider {
+    height: auto;
+    min-height: 350px;
+  }
+  
+  .slide {
+    grid-template-columns: 1fr;
+  }
+  
+  .slide-media {
+    min-height: 200px;
+  }
+  
+  .slide-content {
+    padding: 20px;
+  }
+  
+  .slide-content .kicker {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+  }
+  
+  .slide-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .slide-content p {
+    font-size: 0.9rem;
+  }
+  
+  .carousel-price {
+    font-size: 1rem;
+  }
+  
+  .blue-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+  
+  .slider .nav {
+    width: 38px;
+    height: 38px;
+    bottom: 8px;
+    right: 12px;
+  }
+  
+  .slider .nav.prev {
+    right: 58px;
+  }
+  
+  .dots {
+    left: 12px;
+    bottom: 12px;
+  }
+  
+  .dots button {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .promo {
+    aspect-ratio: 2.5;
+  }
+  
+  .promo-content {
+    padding: 14px;
+  }
+  
+  .promo-content .name {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .carousel {
+    padding: 25px 0;
+  }
+  
+  .slider {
+    min-height: 320px;
+  }
+  
+  .slide-content {
+    padding: 16px;
+  }
+  
+  .slide-content h2 {
+    font-size: 1.3rem;
+    margin: 0 0 10px;
+  }
+  
+  .slide-content p {
+    font-size: 0.85rem;
+    margin: 0 0 14px;
+  }
+  
+  .blue-btn {
+    padding: 9px 18px;
+    font-size: 0.85rem;
+  }
+  
+  .promo {
+    aspect-ratio: 2;
+  }
+  
+  .promo-badge {
+    top: 10px;
+    left: 10px;
+    gap: 6px;
+  }
+  
+  .promo-badge .save {
+    padding: 4px 10px;
+    font-size: 0.85rem;
+  }
+  
+  .promo-badge .title {
+    font-size: 0.9rem;
+  }
+  
+  .promo-content {
+    padding: 12px;
+  }
+  
+  .promo-content .category {
+    font-size: 0.85rem;
+  }
+  
+  .promo-content .name {
+    font-size: 1rem;
+  }
+  
+  .promo .price {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel {
+    padding: 20px 0;
+  }
+  
+  .slider {
+    min-height: 300px;
+    border-radius: 12px;
+  }
+  
+  .slide-media {
+    min-height: 180px;
+  }
+  
+  .slide-content {
+    padding: 14px;
+  }
+  
+  .slide-content .kicker {
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    margin: 0 0 8px;
+  }
+  
+  .slide-content h2 {
+    font-size: 1.2rem;
+    margin: 0 0 8px;
+  }
+  
+  .slide-content p {
+    font-size: 0.8rem;
+    margin: 0 0 12px;
+  }
+  
+  .carousel-price {
+    font-size: 0.95rem;
+    margin: 6px 0 12px;
+  }
+  
+  .blue-btn {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+  
+  .slider .nav {
+    width: 34px;
+    height: 34px;
+    bottom: 6px;
+    right: 10px;
+  }
+  
+  .slider .nav.prev {
+    right: 50px;
+  }
+  
+  .dots {
+    left: 10px;
+    bottom: 10px;
+    gap: 6px;
+  }
+  
+  .dots button {
+    width: 7px;
+    height: 7px;
+  }
+  
+  .promo {
+    border-radius: 12px;
+    aspect-ratio: 1.8;
+  }
+  
+  .promo-badge {
+    top: 8px;
+    left: 8px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .promo-badge .save {
+    padding: 3px 8px;
+    font-size: 0.75rem;
+  }
+  
+  .promo-badge .title {
+    font-size: 0.8rem;
+  }
+  
+  .promo-content {
+    padding: 10px;
+    gap: 6px;
+  }
+  
+  .promo-content .category {
+    font-size: 0.75rem;
+  }
+  
+  .promo-content .name {
+    font-size: 0.9rem;
+  }
+  
+  .promo .price {
+    font-size: 0.85rem;
+  }
+}
+
+
+/* ==========================================================================
+   SERVICES / BENEFÍCIOS
+   - Faixa de cartões simples com ícones e textos curtos
+   - Bordas sutis para separar visualmente
+   -------------------------------------------------------------------------- */
+/*  Estilo da seção de serviços */
+.services {
+  border-top: 1px solid #f1f3f5;
+  border-bottom: 1px solid #f1f3f5;
+  background: #f8f8f8b0;
+  padding: 20px 0;
+}
+/* Grade responsiva dos serviços */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  justify-items: center;
+}
+/* Estilo individual de cada serviço */
+.service {
+  padding: 20px 24px;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  background: #fff;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 280px;
+  text-align: left;
+}
+/* Efeito de hover para destaque */
+.service:hover {
+  border-color: #007ea7;
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.1);
+  transform: translateY(-2px);
+}
+/* Layout flexível do conteúdo do serviço */
+.service span {
+  font-size: 2.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+/* Conteúdo textual do serviço */
+.service div {
+  flex: 1;
+  min-width: 0;
+}
+/* Título do serviço */
+.service h6 {
+  margin: 0 0 6px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #00171F;
+}
+/* Descrição do serviço */
+.service p {
+  margin: 0;
+  color: #00171F;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+/* Responsivo */
+@media (max-width: 1200px) {
+  .services-grid {
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+  /* Ajuste do tamanho dos serviços */
+  .service {
+    padding: 16px 20px;
+    max-width: 240px;
+  }
+  /* Ajuste do tamanho do ícone */
+  .service span {
+    font-size: 2rem;
+  }
+}
+/*  Responsivo para tablets */
+@media (max-width: 992px) {
+  .services {
+    padding: 35px 0;
+  }
+  
+  .services-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  /* Ajuste do tamanho dos serviços */
+  .service {
+    max-width: 260px;
+    padding: 18px 20px;
+  }
+  
+  .service span {
+    font-size: 2.2rem;
+  }
+  
+  .service h6 {
+    font-size: 0.95rem;
+  }
+  
+  .service p {
+    font-size: 0.85rem;
+  }
+}
+/* Responsivo para smartphones */
+@media (max-width: 768px) {
+  .services {
+    padding: 30px 0;
+  }
+  /* Serviços em duas colunas */
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  /* Serviços ocupam largura disponível */
+  .service {
+    max-width: 100%;
+    padding: 16px 18px;
+  }
+  
+  .service span {
+    font-size: 2rem;
+  }
+}
+/*  Responsivo para telas muito pequenas */
+@media (max-width: 480px) {
+  .services {
+    padding: 25px 0;
+  }
+  
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .service {
+    max-width: 100%;
+    padding: 14px 16px;
+  }
+  
+  .service span {
+    font-size: 1.8rem;
+  }
+  /* Ajuste do tamanho do título */ 
+  .service h6 {
+    font-size: 0.9rem;
+  }
+  /* Ajuste do tamanho do texto */
+  .service p {
+    font-size: 0.8rem;
+  }
+}
+
+
+/* ==========================================================================
+   OFFERS / BANNERS PROMOCIONAIS
+   - Grade em 2 colunas, cards com sombra e imagem cortada (cover)
+   - Tipografia "huge" para percentuais e destaque de cor na palavra "Off"
+  -------------------------------------------------------------------------- */
+/* Estilo da seção de ofertas */  
+.offers{
+  background:#FFFFFF;
+  padding:36px 0
+}
+/* Grade das ofertas */
+.offer-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px
+}
+/* Estilo individual de cada oferta */
+.offer.card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;background:#fff;
+  border:1px solid #e9ecef;
+  border-radius:16px;
+  padding:18px;
+  box-shadow:var(--shadow)
+}
+/* Imagem da oferta com cover e bordas arredondadas */
+.offer.card img{
+  width:220px;
+  height:140px;
+  object-fit:cover;
+  border-radius:12px
+}
+/* Conteúdo textual da oferta */
+.huge{
+  font:700 2.5rem 'Roboto', sans-serif;color:#00af09;
+}
+/* Destaque de cor na palavra "Off" */
+.huge span{
+  color:#00af09;
+}
+
+/* Responsividade das Ofertas */
+@media (max-width: 992px) {
+  .offers {
+    padding: 30px 0;
+  }
+  
+  .offer-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .offer.card {
+    padding: 16px;
+  }
+  
+  .offer.card img {
+    width: 200px;
+    height: 130px;
+  }
+  
+  .huge {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .offers {
+    padding: 25px 0;
+  }
+  
+  .offer.card {
+    flex-direction: column;
+    text-align: center;
+    padding: 14px;
+  }
+  
+  .offer.card img {
+    width: 100%;
+    max-width: 300px;
+    height: 180px;
+  }
+  
+  .huge {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .offers {
+    padding: 20px 0;
+  }
+  
+  .offer.card {
+    padding: 12px;
+    border-radius: 12px;
+  }
+  
+  .offer.card img {
+    height: 160px;
+    border-radius: 10px;
+  }
+  
+  .huge {
+    font-size: 1.8rem;
+  }
+}
+
+
+/* ==========================================================================
+   PRODUCTS / LISTAGEM
+   - Cabeçalho com tabs (Todos, Recentes, Destaques, Mais Vendidos)
+   - Grade em 4 colunas com cartões, zoom na imagem no hover
+   - Badges (primary/secondary), botões sobrepostos (overlay-btn)
+   - NOVO: Links para página de detalhes
+   -------------------------------------------------------------------------- */
+/* Estilo da seção de produtos */
+.products{
+  padding:56px 0
+}
+
+
+/* Cabeçalho com título e tabs */
+.products-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:18px
+}
+/* Título da seção */
+.tabs{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap
+}
+/* Estilo dos botões das tabs */
+.tab{
+  border-radius:999px;
+  border:1px solid #e9ecef;
+  background:#f8f9fa;
+  padding:8px 14px;
+  cursor:pointer;
+  font-weight:600
+}
+/* Tab ativa com destaque de cor */
+.tab.active{
+  background:#003459;
+  color:#fff;
+  border-color:#007ea7;
+}
+/* Grade dos cartões de produto */
+.grid.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); /* 🔹 largura mínima por card */
+  gap:24px;  /* 🔹 espaçamento entre cards */
+  align-items:stretch;
+}
+
+/* Link do produto - remove estilo padrão de link */
+.product-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+/* Estilo do cartão de produto */
+.card.product{
+  background:#b9b8b8;
+  border:1px solid #070707;
+  border-radius:16px;
+  overflow:hidden;
+  position:relative;
+  transition:transform .2s
+}
+/*  Efeito de hover com leve elevação */
+.card.product:hover{
+  transform:translateY(-10px)
+}
+/* Estilo da mídia do produto */
+.product-media{
+  position:relative;
+  overflow:hidden
+}
+/* Imagem do produto com cover e transição */
+.product-media img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  transition:transform .5s
+}
+/* Zoom na imagem ao passar o mouse */
+.card.product:hover .product-media img{
+  transform:scale(1.06)
+}
+/* Estilo das badges */
+.badge{
+  position:absolute;
+  top:12px;
+  right:12px;
+  border-radius:999px;
+  padding:6px 12px;
+  font-size:.85rem;
+  color:#fff
+}
+/* Badges primária e secundária */
+.badge.primary{
+  background:#003459;
+}
+/*  Badges secundária */
+.badge.secondary{
+  background:#003459;
+}
+/* Botão sobreposto (overlay) */
+.overlay-btn{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  background:rgba(255,255,255,.2);
+  opacity:0;
+  transition:.3s
+}
+/* Mostra o botão overlay no hover */
+.card.product:hover .overlay-btn{
+  opacity:1
+}
+/* Estilo do conteúdo do botão overlay */
+.product-body{
+  padding:16px;
+  text-align:right
+}
+/*  Estilo do texto do produto */
+.product-body .category{
+  color:#6c757d
+}
+.product-info {
+  padding: 12px 16px;
+}
+/* Nome do produto */
+.product-body .name{
+  font-weight:700;
+  display:block;
+  margin-top:6px
+}
+/* Preço do produto */
+.product-body .price{
+  margin-top:8px
+}
+/* Estilo do preço riscado (desconto) */
+.product-actions{
+  border-top:1px solid #f1f3f5;
+  padding:12px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between
+}
+
+/* ==========================================================================
+   CARDS DE PRODUTOS (LISTAGEM)
+   - Cards responsivos com sombra, borda e hover suave
+   -------------------------------------------------------------------------- */
+.product-card {
+  background: #fff;
+  border: 1.5px solid #e0e0e0;      /* 🔹 borda visível */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Hover com leve destaque */
+.product-card:hover {
+  border-color: #00a8e8;
+  box-shadow: 0 6px 18px rgba(0, 168, 232, 0.2);
+  transform: translateY(-3px);
+}
+
+/* Imagem do produto */
+.product-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Conteúdo textual */
+.product-card .info {
+  padding: 16px;
+  flex: 1;
+}
+
+.product-card .info h3 {
+  font-size: 1rem;
+  margin: 0 0 6px;
+  color: #00171F;
+}
+
+.product-card .info p {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin: 0;
+}
+/* Estilo da avaliação (rating) */
+.rating{
+  opacity:.9
+}
+
+/* =========================================================
+   🎨 Correção de cores dos novos cards (.product-card)
+   ========================================================= */
+.product-card {
+  color: #00171F; /* cor base do texto */
+  background: #ffffff;
+}
+
+/* Categoria */
+.product-card .product-category {
+  color: #6c757d;
+}
+
+/* Nome do produto */
+.product-card .product-name {
+  color: #003459;
+  font-weight: 700;
+}
+
+/* Preço */
+.product-card .product-price strong {
+  color: #00af09;
+}
+.product-card .product-price del {
+  color: #ff0202;
+}
+
+/* ===========================================
+   ✨ Transição suave dos produtos (fade)
+   =========================================== */
+#productGrid {
+  transition: opacity 0.4s ease;
+  opacity: 1;
+}
+
+#productGrid.fade-out {
+  opacity: 0;
+}
+
+.product-card {
+  transform: translateY(10px);
+  opacity: 0;
+  animation: cardFade 0.4s ease forwards;
+}
+
+@keyframes cardFade {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+/* Responsividade dos Produtos */
+@media (max-width: 1200px) {
+  .products {
+    padding: 48px 0;
+  }
+  
+  .product-media img {
+    height: 200px;
+  }
+}
+
+@media (max-width: 992px) {
+  .products {
+    padding: 40px 0;
+  }
+  
+  .products-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .tabs {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .tab {
+    padding: 7px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .grid.cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .product-media img {
+    height: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .products {
+    padding: 35px 0;
+  }
+  
+  .products-head {
+    margin-bottom: 16px;
+  }
+  
+  .tabs {
+    gap: 8px;
+  }
+  
+  .tab {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+  
+  .grid.cards {
+    gap: 14px;
+  }
+  
+  .card.product {
+    border-radius: 14px;
+  }
+  
+  .product-media img {
+    height: 200px;
+  }
+  
+  .product-body {
+    padding: 14px;
+  }
+  
+  .product-body .category {
+    font-size: 0.85rem;
+  }
+  
+  .product-body .name {
+    font-size: 0.95rem;
+  }
+  
+  .product-body .price {
+    font-size: 0.9rem;
+  }
+  
+  .product-actions {
+    padding: 10px 14px;
+  }
+}
+
+@media (max-width: 640px) {
+  .products {
+    padding: 30px 0;
+  }
+  
+  .grid.cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .card.product {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .product-media img {
+    height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .products {
+    padding: 25px 0;
+  }
+  
+  .products-head h2 {
+    font-size: 1.5rem;
+  }
+  
+  .tabs {
+    gap: 6px;
+  }
+  
+  .tab {
+    padding: 5px 9px;
+    font-size: 0.8rem;
+  }
+  
+  .grid.cards {
+    gap: 12px;
+  }
+  
+  .card.product {
+    border-radius: 12px;
+  }
+  
+  .product-media img {
+    height: 220px;
+  }
+  
+  .badge {
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    font-size: 0.75rem;
+  }
+  
+  .product-body {
+    padding: 12px;
+  }
+  
+  .product-body .category {
+    font-size: 0.8rem;
+  }
+  
+  .product-body .name {
+    font-size: 0.9rem;
+    margin-top: 4px;
+  }
+  
+  .product-body .price {
+    font-size: 0.85rem;
+    margin-top: 6px;
+  }
+  
+  .product-actions {
+    padding: 10px 12px;
+  }
+}
+
+
+/* ==========================================================================
+   FOOTER / RODAPÉ
+   - Fundo escuro com 4 colunas (marca + 3 colunas de links/contato)
+   - Tipografia clara e separador superior na faixa inferior
+   -------------------------------------------------------------------------- */
+.footer{
+  background:#00171F;
+  color:#cbd5e1;
+  margin-top:36px
+}
+/* Grade do footer com 4 colunas */
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:20px;
+  padding:36px 0
+}
+/* Estilo da marca no footer */
+.footer .brand.small h3{
+  margin:0;
+  color:#fff
+}
+/* Estilo dos títulos das colunas */
+.link-list{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:8px
+}
+/* Título das listas de links */
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.08);
+  padding:16px 0;
+  color:#94a3b8;
+  text-align:center
+}
+
+/* Responsividade do Footer */
+@media (max-width: 992px) {
+  .footer {
+    margin-top: 30px;
+  }
+  
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 32px 0;
+  }
+  
+  .footer .brand.small {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    margin-top: 25px;
+  }
+  
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 28px 0;
+    text-align: center;
+  }
+  
+  .footer .brand.small h3 {
+    font-size: 1.3rem;
+  }
+  
+  .link-list {
+    gap: 6px;
+  }
+  
+  .footer-bottom {
+    padding: 14px 0;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    margin-top: 20px;
+  }
+  
+  .footer-grid {
+    padding: 24px 0;
+    gap: 16px;
+  }
+  
+  .footer .brand.small h3 {
+    font-size: 1.2rem;
+  }
+  
+  .link-list {
+    font-size: 0.9rem;
+  }
+  
+  .footer-bottom {
+    padding: 12px 0;
+    font-size: 0.85rem;
+  }
+}
+
+
+/* ==========================================================================
+   BACK TO TOP / VOLTAR AO TOPO
+   - Botão flutuante no canto inferior direito
+   - Aparece (opacity/visibility) quando a classe .show é aplicada via JS
+   -------------------------------------------------------------------------- */
+.back-to-top{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:none;
+  background:#003459;
+  color:#fff;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+  opacity:0;
+  visibility:hidden;
+  transition:.25s;
+  z-index:9999;
+}
+/* Mostra o botão quando a classe .show é aplicada */
+.back-to-top.show{
+  opacity:1;
+  visibility:visible
+}
+
+/* Responsividade do Back to Top */
+@media (max-width: 768px) {
+  .back-to-top {
+    width: 40px;
+    height: 40px;
+    right: 16px;
+    bottom: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .back-to-top {
+    width: 36px;
+    height: 36px;
+    right: 12px;
+    bottom: 12px;
+    font-size: 0.9rem;
+  }
+}
+
+
+/* ==========================================================================
+   BREAKPOINTS / RESPONSIVE - AJUSTES GERAIS
+   - Ajustes adicionais de responsividade geral
+   -------------------------------------------------------------------------- */
+@media (max-width: 1200px){
+  .container {
+    width: min(1200px, 94%);
+  }
+}
+
+@media (max-width: 992px){
+  body {
+    line-height: 1.6;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.3;
+  }
+}
+
+@media (max-width: 768px){
+  body {
+    font-size: 0.95rem;
+  }
+  
+  .container {
+    width: min(1200px, 96%);
+  }
+}
+
+@media (max-width: 480px){
+  body {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  
+  .container {
+    width: min(1200px, 98%);
+  }
+}
+
+/* 🔧 Garante que o conteúdo principal tenha altura mínima */
+main {
+  display: block;
+  min-height: calc(100vh - 195px);
+  padding-bottom: 60px; /* espaço antes do footer */
+}
+
+/* Ajustes responsivos do main */
+@media (max-width: 992px) {
+  main {
+    min-height: calc(100vh - 270px);
+    padding-bottom: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+    min-height: calc(100vh - 290px);
+    padding-bottom: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    min-height: calc(100vh - 310px);
+    padding-bottom: 30px;
+  }
+}
+
+/* ==========================================================================
+   AJUSTES FINAIS DE RESPONSIVIDADE PARA ELEMENTOS ESPECÍFICOS
+   -------------------------------------------------------------------------- */
+
+/* Ajustes para elementos de formulário em telas pequenas */
+@media (max-width: 480px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  textarea,
+  select {
+    font-size: 16px; /* Previne zoom automático no iOS */
+  }
+}
+
+/* Ajustes para imagens responsivas */
+@media (max-width: 768px) {
+  img {
+    height: auto;
+  }
+}
+
+/* Ajustes para tabelas em telas pequenas */
+@media (max-width: 640px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Previne overflow horizontal */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+}
+
+/* Ajustes de espaçamento vertical em telas pequenas */
+@media (max-width: 480px) {
+  section {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  
+  .container > * + * {
+    margin-top: 16px;
+  }
+}
+
+/* Melhorias de performance para animações em dispositivos móveis */
+@media (max-width: 768px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .slide,
+  .card,
+  .service,
+  .offer {
+    will-change: auto;
+  }
+}
+
+/* Ajustes para touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .nav-list a:hover,
+  .dropdown-toggle:hover,
+  .cat-toggle:hover,
+  .service:hover,
+  .card.product:hover {
+    transform: none;
+  }
+  
+  .nav-list a:active,
+  .dropdown-toggle:active,
+  .cat-toggle:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Otimizações de texto para dispositivos móveis */
+@media (max-width: 480px) {
+  p {
+    text-align: left;
+    hyphens: auto;
+    word-wrap: break-word;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+/* Ajustes para orientação landscape em dispositivos móveis */
+@media (max-width: 768px) and (orientation: landscape) {
+  body {
+    padding-top: 160px;
+  }
+  
+  .topbar,
+  .brandbar.mercadolivre,
+  .navwrap {
+    position: relative;
+  }
+  
+  .slider {
+    min-height: 280px;
+  }
+  
+  .carousel {
+    padding: 20px 0;
+  }
+}
+
+/* Ajustes para telas muito grandes */
+@media (min-width: 1400px) {
+  .container {
+    width: min(1400px, 90%);
+  }
+  
+  .carousel-grid {
+    grid-template-columns: 1fr 450px;
+  }
+  
+  .slider {
+    height: 450px;
+  }
+  
+  .grid.cards {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Ajustes para impressão */
+@media print {
+  .topbar,
+  .brandbar,
+  .navwrap,
+  .back-to-top,
+  .spinner,
+  .dropdown {
+    display: none !important;
+  }
+  
+  body {
+    padding-top: 0;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: none;
+  }
+  
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+}
+
+/* Acessibilidade: foco visível para navegação por teclado */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #00a8e8;
+  outline-offset: 2px;
+}
+
+/* Modo de alto contraste */
+@media (prefers-contrast: high) {
+  .card,
+  .service,
+  .offer {
+    border-width: 2px;
+  }
+  
+  .nav-list a,
+  .dropdown-toggle,
+  .cat-toggle {
+    border: 1px solid currentColor;
+  }
+}
+
+/* Preferência por movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Dark mode (opcional - pode ser ativado via JavaScript) */
+@media (prefers-color-scheme: dark) {
+  /* Os estilos de dark mode podem ser adicionados aqui se desejado */
+}

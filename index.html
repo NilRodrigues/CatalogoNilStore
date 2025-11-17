@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NilStore - Produtos 3D</title>
+
+  <!-- 🔹 Conexões antecipadas para melhorar o carregamento -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://docs.google.com">
+  
+  <!-- 🔹 Importação de fontes do Google -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- 🔹 Estilos principais -->
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <!-- 🔹 Spinner (carregando a página) -->
+  <div id="spinner" class="spinner show" role="status" aria-live="polite">
+    <div class="spinner-dot"></div>
+  </div>
+
+  <!-- 🔹 BARRA SUPERIOR -->
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-left">
+         <a href="#" class="muted">Suporte</a><span class="sep"></span>
+      </div>
+
+      <div class="topbar-center">
+        <small class="text-dark">Entre em Contato:</small>
+        <a href="#" class="muted">(19) 999151713</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔹 BARRA DE MARCA ESTILO MERCADO LIVRE -->
+  <div class="brandbar mercadolivre">
+    <div class="container ml-grid">
+
+      <!-- Logo -->
+      <a class="brand" href="index.html">
+        <img src="images/logo.png" alt="logo NilStore" class="ml-logo" loading="lazy">
+      </a>
+
+      <!-- Campo de busca -->
+      <div class="ml-search">
+        <input type="text" placeholder="O que você está procurando?" />
+        <button class="ml-btn" aria-label="Buscar">
+          <img src="images/lupa.png" alt="Buscar" loading="lazy">
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔹 NAVBAR + CATEGORIAS -->
+  <div class="navwrap">
+    <div class="container nav-grid">
+      <nav class="navbar" aria-label="Primary">
+        <ul class="nav-list">
+          <li><a href="produtos.html">Todos os Produtos</a></li>
+          <li><a href="https://wa.me/5519999151713?text=Olá!%20Gostaria%20de%20fazer%20uma%20encomenda%203D" class="btn-3d">Faça sua encomenda 3D</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <!-- 🔹 CARROSSEL PRINCIPAL -->
+  <section class="carousel">
+    <div class="container carousel-grid">
+      <div class="slider" data-slider>
+        <div class="slides">
+          <!-- Slides são carregados via JavaScript do Google Sheets -->
+          <article class="slide">
+            <div class="slide-media">
+              <!-- Placeholder enquanto carrega -->
+              <img src="data:image/svg+xml,%3Csvg ...%3ECarregando...%3C/svg%3E" alt="Loading" />
+            </div>
+            <div class="slide-content">
+              <h4 class="kicker">Carregando...</h4>
+              <h2>Aguarde enquanto carregamos os produtos</h2>
+              <p>Em instantes você verá nossas ofertas!</p>
+              <a class="btn primary" href="#">Aguarde...</a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Botões de navegação -->
+        <button class="nav prev" aria-label="Previous slide">‹</button>
+        <button class="nav next" aria-label="Next slide">›</button>
+        <div class="dots" role="tablist" aria-label="Paginação do Carrossel"></div>
+      </div>
+
+      <!-- Lateral com Promoções -->
+      <aside class="promo">
+        <div class="promo-image">
+          <img src="data:image/svg+xml,%3Csvg ...%3E" alt="Promo" loading="lazy" />
+          <div class="promo-badge">
+            <span class="save">Carregando...</span>
+            <span class="title">Oferta Especial</span>
+          </div>
+        </div>
+        <div class="promo-content">
+          <a href="#" class="category">Carregando...</a>
+          <a href="#" class="name">Aguarde...</a>
+          <div class="price"><strong>R$ --</strong></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 🔹 SEÇÃO DE SERVIÇOS -->
+  <section class="services">
+    <div class="container services-grid">
+      <div class="service"><span>📦</span><div><h6>Devolução Grátis</h6><p>Até 7 dias e seu dinheiro de volta!</p></div></div>
+      <div class="service"><span>🚨</span><div><h6>Frete Grátis</h6><p>Em compras acima de R$100</p></div></div>
+      <div class="service"><span>🛟</span><div><h6>Suporte 24/7</h6><p>Atendimento a qualquer hora</p></div></div>
+      <div class="service"><span>🔒</span><div><h6>Pagamento Seguro</h6><p>Segurança garantida</p></div></div>
+    </div>
+  </section>
+
+  <!-- 🔹 SEÇÃO DE OFERTAS -->
+  <section class="offers">
+    <div class="container offer-grid">
+      <!-- Banners de oferta carregados via JavaScript -->
+      <a class="offer card" href="#">
+        <div>
+          <p class="muted">Carregando ofertas...</p>
+          <h3>Aguarde</h3>
+          <h1 class="huge">--% <span>Off</span></h1>
+        </div>
+        <img src="data:image/svg+xml,%3Csvg ...%3E" alt="Oferta" loading="lazy" />
+      </a>
+      <a class="offer card" href="#">
+        <div>
+          <p class="muted">Carregando ofertas...</p>
+          <h3>Aguarde</h3>
+          <h1 class="huge">--% <span>Off</span></h1>
+        </div>
+        <img src="data:image/svg+xml,%3Csvg ...%3E" alt="Oferta" loading="lazy" />
+      </a>
+    </div>
+  </section>
+
+  <!-- 🔹 LISTAGEM DE PRODUTOS -->
+  <section class="products">
+    <div class="container">
+      <div class="products-head">
+        <h2>Nossos Produtos</h2>
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="all">Todos</button>
+          <button class="tab" data-tab="new">Recentes</button>
+          <button class="tab" data-tab="featured">Destaques</button>
+          <button class="tab" data-tab="top">Mais Vendidos</button>
+        </div>
+      </div>
+
+      <div class="grid cards" id="productGrid" data-active="all">
+        <!-- Produtos carregados dinamicamente -->
+        <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+          <p style="color: #666;">Carregando produtos...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🔹 RODAPÉ -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a class="brand small" href="#"><span class="bag">🛍️</span><h3>NilStore</h3></a>
+        <p class="muted">Produtos 3D para todos. Melhores preços e suporte.</p>
+      </div>
+      <div>
+        <h4>Customer Service</h4>
+        <ul class="link-list">
+          <li><a href="#">Ajuda & FAQs</a></li>
+          <li><a href="#">Envios</a></li>
+          <li><a href="#">Devolução</a></li>
+          <li><a href="#">Rastrear Pedido</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul class="link-list">
+          <li><a href="#">Sobre</a></li>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Termos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <ul class="link-list">
+          <li><a href="#">(19) 999151713</a></li>
+          <li><a href="mailto:NilStore@outlook.com">NilStore@outlook.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2025 NilStore. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Botão "voltar ao topo" -->
+  <button class="back-to-top" aria-label="Back to top">↑</button>
+
+  <!-- 🔹 Script principal do site -->
+  <script src="index.js"></script>
+</body>
+</html>

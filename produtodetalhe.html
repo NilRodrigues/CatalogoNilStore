@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Detalhes do Produto - NilStore</title>
+  <link rel="stylesheet" href="detalhe.css" />
+</head>
+<body>
+
+  <div id="spinner" class="spinner show">
+    <div class="spinner-dot"></div>
+  </div>
+
+  <!-- Layout reutilizado -->
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-left"><a href="#" class="muted">Suporte</a></div>
+      <div class="topbar-center">
+        <small class="text-dark">Entre em Contato:</small>
+        <a href="#" class="muted">(19) 999151713</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="brandbar mercadolivre">
+    <div class="container ml-grid">
+      <a class="brand" href="index.html">
+        <img src="images/logo.png" alt="Logo NilStore" class="ml-logo">
+      </a>
+      <div class="ml-search">
+        <input type="text" placeholder="O que você está procurando?" />
+        <button class="ml-btn"><img src="images/lupa.png" alt="Buscar"></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="navwrap">
+    <div class="container nav-grid">
+      <div class="categories"><button class="cat-toggle">☰ Categorias</button></div>
+      <nav class="navbar">
+        <ul class="nav-list">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="produtos.html">Produtos</a></li>
+          <li><a href="https://wa.me/5519999151713?text=Olá!%20Gostaria%20de%20fazer%20uma%20encomenda%203D" class="btn-3d">Faça sua encomenda 3D</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="container">
+      <h1 id="produtoNome">Carregando...</h1>
+      <p id="produtoCategoria"></p>
+    </div>
+  </section>
+
+  <section class="products-section">
+    <div class="container">
+      <div class="product-detail-layout">
+        <!-- Coluna Esquerda: Galeria de Imagens -->
+        <div class="product-gallery">
+          <div class="main-image-container">
+            <img id="mainImage" src="" alt="Imagem Principal">
+          </div>
+          <div class="thumbnail-container">
+            <div class="thumbnail active" data-index="0">
+              <img id="thumb0" src="" alt="Imagem 1">
+            </div>
+            <div class="thumbnail" data-index="1">
+              <img id="thumb1" src="" alt="Imagem 2">
+            </div>
+            <div class="thumbnail" data-index="2">
+              <img id="thumb2" src="" alt="Imagem 3">
+            </div>
+            <div class="thumbnail" data-index="3">
+              <img id="thumb3" src="" alt="Imagem 4">
+            </div>
+            <div class="thumbnail" data-index="4">
+              <img id="thumb4" src="" alt="Imagem 5">
+            </div>
+          </div>
+        </div>
+
+        <!-- Coluna Direita: Informações do Produto -->
+        <div class="product-details-info">
+          <div class="product-header">
+            <span class="product-category-badge" id="produtoCategoriaDetalhe"></span>
+            <h1 class="product-title" id="produtoNomeDetalhe">Carregando...</h1>
+          </div>
+
+          <div class="product-rating">
+            <div class="stars">
+              ★★★★★
+            </div>
+            <span class="reviews-count">(127 avaliações)</span>
+          </div>
+
+          <div class="product-price-section">
+            <div class="price-container" id="produtoPreco">
+              <!-- Preço será inserido aqui -->
+            </div>
+            <div class="shipping-info">
+              <span class="free-shipping">📦 Frete grátis</span>
+            </div>
+          </div>
+
+          <div class="product-stock">
+            <span class="stock-available">✓ Disponível em estoque</span>
+            <span class="stock-quantity">Últimas 15 unidades!</span>
+          </div>
+
+          <div class="quantity-selector">
+            <label>Quantidade:</label>
+            <div class="quantity-controls">
+              <button class="qty-btn" id="decreaseQty">-</button>
+              <input type="number" id="quantity" value="1" min="1" max="99" readonly>
+              <button class="qty-btn" id="increaseQty">+</button>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <a href="https://wa.me/5519999151713?text=Olá!%20Gostaria%20de%20comprar%20este%20produto" class="buy-now-btn" target="_blank">
+              Comprar via WhatsApp
+            </a>
+          </div>
+
+          <div class="product-benefits">
+            <div class="benefit-item">
+              <span class="benefit-icon">🔒</span>
+              <span>Compra segura</span>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-icon">↩️</span>
+              <span>Devolução grátis</span>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-icon">⚡</span>
+              <span>Envio rápido</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção de Descrição -->
+      <div class="product-description-section">
+        <div class="tabs-container">
+          <div class="tab active" data-tab="description">Descrição</div>
+          <div class="tab" data-tab="specifications">Especificações</div>
+          <div class="tab" data-tab="reviews">Avaliações</div>
+        </div>
+
+        <div class="tab-content active" id="description">
+          <h3>Descrição do Produto</h3>
+          <div id="productDescription">
+            <p>Carregando descrição...</p>
+          </div>
+        </div>
+
+        <div class="tab-content" id="specifications">
+          <h3>Especificações Técnicas</h3>
+          <table class="specs-table">
+            <tbody id="specsTableBody">
+              <tr><td>Carregando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tab-content" id="reviews">
+          <h3>Avaliações dos Clientes</h3>
+          <div class="reviews-container">
+            <p>Seja o primeiro a avaliar este produto!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-bottom">
+      <p>© 2025 NilStore. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="detalhe.js"></script>
+  
+</body>
+</html>

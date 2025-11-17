@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Todos os Produtos - NilStore</title>
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="produtos.css" />
+</head>
+<body>
+  
+  <!-- Spinner -->
+  <div id="spinner" class="spinner show">
+    <div class="spinner-dot"></div>
+  </div>
+
+  <!-- 🔹 TOPBAR -->
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-left">
+        <a href="#" class="muted">Suporte</a><span class="sep"></span>
+      </div>
+
+      <div class="topbar-center">
+        <small class="text-dark">Entre em Contato:</small>
+        <a href="#" class="muted">(19) 999151713</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Brandbar estilo Mercado Livre -->
+  <div class="brandbar mercadolivre">
+    <div class="container ml-grid">
+      <!-- Logo -->
+      <a class="brand" href="index.html">
+        <img src="images/logo.png" alt="Logo NilStore" class="ml-logo" loading="lazy">
+      </a>
+
+      <!-- Campo de busca -->
+      <div class="ml-search">
+        <input type="text" placeholder="O que você está procurando?" />
+        <button class="ml-btn" aria-label="Buscar">
+          <img src="images/lupa.png" alt="Buscar" loading="lazy">
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar + Categories -->
+  <div class="navwrap">
+    <div class="container nav-grid">
+      
+      <!-- Categorias -->
+      <div class="categories">
+        <button class="cat-toggle" aria-expanded="false" aria-controls="catList">
+          <span class="cat-toggle-icon">☰</span>
+          Categorias
+        </button>
+        <ul id="catList" class="cat-list" hidden>
+          <li><a href="#" data-category="acessorios">Acessórios</a> <span>3</span></li>
+          <li><a href="#" data-category="action-figures">Action Figures</a> <span>5</span></li>
+          <li><a href="#" data-category="trofeus">Troféus</a> <span>2</span></li>
+          <li><a href="#" data-category="decoracoes">Decorações</a> <span>8</span></li>
+          <li><a href="#" data-category="colecionaveis">Colecionáveis</a> <span>12</span></li>
+          <li><a href="#" data-category="miniaturas">Miniaturas</a> <span>7</span></li>
+        </ul>
+      </div>
+
+      <!-- Navegação principal -->
+      <nav class="navbar" aria-label="Primary">
+        <ul class="nav-list">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="https://wa.me/5519999151713?text=Olá!%20Gostaria%20de%20fazer%20uma%20encomenda%203D" target="_blank" class="btn-3d">Faça sua encomenda 3D</a></li>
+        </ul>
+      </nav>
+
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <p>33 produtos</p>
+    </div>
+  </section>
+
+  <!-- Filtros e Produtos -->
+  <section class="products-section">
+    <div class="container">
+      
+      <!-- Barra de Filtros -->
+      <div class="filters-bar">
+        <div class="filters-left">
+          <button class="filter-btn active" data-filter="all">
+            Todos os Produtos
+          </button>
+          <button class="filter-btn" data-filter="new">
+            Produtos Recentes
+          </button>
+          <button class="filter-btn" data-filter="featured">
+            Destaques
+          </button>
+          <button class="filter-btn" data-filter="top">
+            Mais Vendidos
+          </button>
+        </div>
+
+        <div class="filters-right">
+          <select class="sort-select" id="sortSelect">
+            <option value="">Ordenar por</option>
+            <option value="name-asc">Nome (A-Z)</option>
+            <option value="name-desc">Nome (Z-A)</option>
+            <option value="price-asc">Menor Preço</option>
+            <option value="price-desc">Maior Preço</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Grid de Produtos -->
+      <div class="products-grid" id="productsGrid">
+        <!-- Produtos serão carregados aqui via JavaScript -->
+        <div class="loading-message">
+          <p>Carregando produtos...</p>
+        </div>
+      </div>
+
+      <!-- Mensagem vazia -->
+      <div class="empty-message" id="emptyMessage" style="display: none;">
+        <p>Nenhum produto encontrado.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a class="brand small" href="index.html">
+          <span class="bag">🛍️</span>
+          <h3>NilStore</h3>
+        </a>
+        <p class="muted">Produtos 3D para todos. Melhores Preços e Suporte.</p>
+      </div>
+      <div>
+        <h4>Customer Service</h4>
+        <ul class="link-list">
+          <li><a href="#">Ajuda & FAQs</a></li>
+          <li><a href="#">Envios</a></li>
+          <li><a href="#">Devolução</a></li>
+          <li><a href="#">Rastrear Pedido</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul class="link-list">
+          <li><a href="#">Sobre</a></li>
+          <li><a href="#">Politica de Privacidade</a></li>
+          <li><a href="#">Termos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul class="link-list">
+          <li><a href="#">(19) 999151713</a></li>
+          <li><a href="#">NilStore@outlook.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2025 NilStore. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <button class="back-to-top" aria-label="Voltar ao topo">↑</button>
+
+  <!-- 🔹 Script principal do site (sem Firebase) -->
+  <script src="produtos.js"></script>
+</body>
+</html>
