@@ -2068,6 +2068,13 @@ dots button{
   text-align:center
 }
 
+/* Aumentar logo apenas no footer */
+.footer .ml-logo {
+  height: 100px;   /* ajusta o valor até ficar como você quiser */
+  width: auto;
+}
+
+
 /* Responsividade do Footer */
 @media (max-width: 992px) {
   .footer {

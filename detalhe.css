@@ -355,7 +355,7 @@ a {
 .nav-list {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* 👍 Isso volta a empurrar os lados */
+  justify-content: space-between;
   gap: 8px;
   list-style: none;
   margin: 0;
@@ -1033,11 +1033,72 @@ a {
   margin-top: 60px;
 }
 
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 32px;
+  padding: 48px 0;
+  justify-items: start;
+  align-items: start;
+}
+
+.footer .brand.small {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.footer .brand.small .bag {
+  font-size: 2rem;
+}
+
+.footer .brand.small h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.footer .muted {
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.footer h4 {
+  color: #fff;
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+}
+
+.link-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.link-list a {
+  color: #cbd5e1;
+  transition: var(--transition);
+}
+
+.link-list a:hover {
+  color: var(--primary);
+  padding-left: 4px;
+}
+
 .footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding: 20px 0;
   text-align: center;
   color: #94a3b8;
+}
+
+/* Aumentar logo apenas no footer */
+.footer .ml-logo {
+  height: 100px;
+  width: auto;
 }
 
 /* ===== Responsive ===== */
@@ -1070,6 +1131,10 @@ a {
   .products-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -1170,6 +1235,11 @@ a {
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
 }
 
