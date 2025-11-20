@@ -366,10 +366,6 @@ a {
   margin-left: auto;
 }
 
-/*.nav-list li:first-child {
-  margin-right: auto;
-}*/
-
 .nav-list a {
   color: #fff;
   text-decoration: none;
@@ -690,6 +686,8 @@ a {
   cursor: pointer;
   transition: all 0.3s;
   box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+  text-align: center;
+  display: block;
 }
 
 .buy-now-btn:hover {

@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Envios — NilStore</title>
+  <meta name="description" content="Informações de envios da NilStore. Entregas feitas pelo Mercado Livre." />
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, Arial, sans-serif;
+      line-height:1.6;
+      background:#fff;
+      color:#000;
+    }
+    header, footer{
+      padding:16px;
+      border-bottom:1px solid #e9e9e9;
+    }
+    footer{ border-top:1px solid #e9e9e9; border-bottom:0; }
+    main{ padding:20px; max-width:900px; margin:0 auto; }
+    a{ color:#000; text-decoration:underline; }
+    a:hover{ opacity:.75; }
+    .muted{ opacity:.75; font-size:.95rem; }
+    .card{
+      border:1px solid #eee; border-radius:12px;
+      padding:16px; margin:12px 0;
+      background:#fff;
+    }
+
+        .footer {
+  background:#00171F;
+  color: #cbd5e1;
+  margin-top: 60px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 32px;
+  padding: 48px 0;
+  justify-items: start;
+  align-items: start;
+}
+
+.footer .brand.small {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.footer .brand.small .bag {
+  font-size: 2rem;
+}
+
+.footer .brand.small h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.footer .muted {
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.footer h4 {
+  color: #fff;
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+}
+
+.link-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.link-list a {
+  color: #cbd5e1;
+  transition: var(--transition);
+}
+
+.link-list a:hover {
+  color: var(--primary);
+  padding-left: 4px;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 20px 0;
+  text-align: center;
+  color: #94a3b8;
+}
+
+/* Aumentar logo apenas no footer */
+.footer .ml-logo {
+  height: 100px;
+  width: auto;
+}
+  </style>
+</head>
+<body>
+  <header>
+    <nav aria-label="Navegação principal">
+      <a href="index.html">← Voltar ao catálogo</a>
+    </nav>
+    <h1>Envios</h1>
+    <p class="muted">Na NilStore, todos os envios são feitos pelo Mercado Livre.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Compras e entregas</h2>
+      <p>
+        O nosso site é apenas um catálogo. Ao clicar em “Comprar”, você é levado
+        para a loja oficial da NilStore no Mercado Livre, onde o pagamento e a entrega
+        são processados por lá.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Como o envio funciona no Mercado Livre</h2>
+      <ul>
+        <li>
+          As entregas são feitas via <strong>Mercado Envios</strong>, usando Correios ou
+          transportadoras parceiras, conforme sua região e o tipo de anúncio.
+        <li>
+          Depois da compra, o Mercado Livre gera a <strong>etiqueta de envio</strong> com seu endereço.
+          O vendedor imprime, cola no pacote e despacha em um ponto indicado ou agenda coleta,
+          dependendo da modalidade. 
+        </li>
+        <li>
+          Você consegue acompanhar todo o trajeto pelo <strong>rastreamento dentro do Mercado Livre</strong>. 
+        </li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Prazos</h2>
+      <p>
+        No Mercado Envios, o prazo de postagem costuma ser rápido:
+        vendas feitas antes do horário limite devem ser despachadas no mesmo dia;
+        após o limite, no dia seguinte. Em geral, a preparação/ despacho é medida em até 24h
+        e impacta a reputação do vendedor caso atrase. 
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Endereço e segurança</h2>
+      <ul>
+        <li>
+          O endereço informado na compra é usado diretamente na etiqueta; por isso,
+          é importante preencher corretamente no Mercado Livre. 
+        </li>
+        <li>
+          Por motivos de segurança, encomendas podem ser inspecionadas pelo Mercado Livre
+          e/ou transportadoras durante o processo logístico. 
+        </li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Dúvidas sobre entrega</h2>
+      <p>
+        Se tiver qualquer dúvida sobre frete, prazo ou status do pedido,
+        consulte o rastreamento no próprio Mercado Livre. Caso precise, fale conosco:
+        <a href="mailto:nillab.oficial@outlook.com">nillab.oficial@outlook.com</a>.
+      </p>
+    </section>
+  </main>
+
+
+<footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a class="brand small" href="index.html">
+        <img src="images/logologin1.png" alt="logo NilStore" class="ml-logo" loading="lazy">
+        </a>
+        <p class="muted">Produtos 3D para todos. Melhores Preços e Suporte.</p>
+      </div>
+      <div>
+        <h4>Atendimento ao cliente</h4>
+        <ul class="link-list">
+          <li><a href="envios.html">Envios</a></li>
+          <li><a href="devolucao.html">Devolução</a></li>
+          <li><a href="rastrear.html">Rastrear Pedido</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Empresa</h4>
+        <ul class="link-list">
+          <li><a href="sobre.html">Sobre</a></li>
+          <li><a href="privacidade.html">Política de Privacidade</a></li>
+          <li><a href="termos.html">Termos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <ul class="link-list">
+          <li><a href="tel:+5519999151713">(19) 99915-1713</a></li>
+          <li><a href="mailto:nillab.oficial@outlook.com">nillab.oficial@outlook.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2025 NilStore. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+ 
+</body>
+</html>
