@@ -323,7 +323,7 @@ function sortProducts(sortType) {
 
 // ====== CARREGAR PRODUTOS DO GOOGLE SHEETS ======
 async function loadProducts() {
-  console.log('📄 Carregando produtos do Google Sheets...');
+  console.log('🔄 Carregando produtos do Google Sheets...');
   
   const spinner = document.getElementById('spinner');
   if (spinner) spinner.classList.add('show');

@@ -5,30 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NilStore - Produtos 3D</title>
 
-  <!-- 🔹 Conexões antecipadas para melhorar o carregamento -->
+  <!-- Conexões antecipadas -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://docs.google.com">
   
-  <!-- 🔹 Importação de fontes do Google -->
+  <!-- Fontes -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
-  <!-- 🔹 Estilos principais -->
+  <!-- CSS -->
   <link rel="stylesheet" href="index.css" />
 </head>
 <body>
-  <!-- 🔹 Spinner (carregando a página) -->
+  <!-- Spinner -->
   <div id="spinner" class="spinner show" role="status" aria-live="polite">
     <div class="spinner-dot"></div>
   </div>
 
-  <!-- 🔹 BARRA SUPERIOR -->
+  <!-- Topbar -->
   <div class="topbar">
     <div class="container">
       <div class="topbar-left">
          <a href="#" class="muted">Suporte</a><span class="sep"></span>
       </div>
-
       <div class="topbar-center">
         <small class="text-dark">Entre em Contato:</small>
         <a href="#" class="muted">(19) 999151713</a>
@@ -36,16 +35,12 @@
     </div>
   </div>
 
-  <!-- 🔹 BARRA DE MARCA ESTILO MERCADO LIVRE -->
+  <!-- Brandbar com busca (NÃO FIXA mais) -->
   <div class="brandbar mercadolivre">
     <div class="container ml-grid">
-
-      <!-- Logo -->
       <a class="brand" href="index.html">
         <img src="images/logo.png" alt="logo NilStore" class="ml-logo" loading="lazy">
       </a>
-
-      <!-- Campo de busca -->
       <div class="ml-search">
         <input type="text" placeholder="O que você está procurando?" />
         <button class="ml-btn" aria-label="Buscar">
@@ -55,7 +50,7 @@
     </div>
   </div>
 
-  <!-- 🔹 NAVBAR + CATEGORIAS -->
+  <!-- Navbar (agora fica logo abaixo da busca) -->
   <div class="navwrap">
     <div class="container nav-grid">
       <nav class="navbar" aria-label="Primary">
@@ -67,16 +62,14 @@
     </div>
   </div>
 
-  <!-- 🔹 CARROSSEL PRINCIPAL -->
+  <!-- Carrossel -->
   <section class="carousel">
     <div class="container carousel-grid">
       <div class="slider" data-slider>
         <div class="slides">
-          <!-- Slides são carregados via JavaScript do Google Sheets -->
           <article class="slide">
             <div class="slide-media">
-              <!-- Placeholder enquanto carrega -->
-              <img src="data:image/svg+xml,%3Csvg ...%3ECarregando...%3C/svg%3E" alt="Loading" />
+              <img src="data:image/svg+xml,%3Csvg..." alt="Loading" />
             </div>
             <div class="slide-content">
               <h4 class="kicker">Carregando...</h4>
@@ -86,17 +79,14 @@
             </div>
           </article>
         </div>
-
-        <!-- Botões de navegação -->
         <button class="nav prev" aria-label="Previous slide">‹</button>
         <button class="nav next" aria-label="Next slide">›</button>
         <div class="dots" role="tablist" aria-label="Paginação do Carrossel"></div>
       </div>
 
-      <!-- Lateral com Promoções -->
       <aside class="promo">
         <div class="promo-image">
-          <img src="data:image/svg+xml,%3Csvg ...%3E" alt="Promo" loading="lazy" />
+          <img src="data:image/svg+xml,%3Csvg..." alt="Promo" loading="lazy" />
           <div class="promo-badge">
             <span class="save">Carregando...</span>
             <span class="title">Oferta Especial</span>
@@ -111,40 +101,31 @@
     </div>
   </section>
 
-  <!-- 🔹 SEÇÃO DE SERVIÇOS -->
+  <!-- Serviços -->
   <section class="services">
     <div class="container services-grid">
-      <div class="service"><span>📦</span><div><h6>Devolução Grátis</h6><p>Até 7 dias e seu dinheiro de volta!</p></div></div>
-      <div class="service"><span>🚨</span><div><h6>Frete Grátis</h6><p>Em compras acima de R$100</p></div></div>
-      <div class="service"><span>🛟</span><div><h6>Suporte 24/7</h6><p>Atendimento a qualquer hora</p></div></div>
-      <div class="service"><span>🔒</span><div><h6>Pagamento Seguro</h6><p>Segurança garantida</p></div></div>
+      <div class="service"><span>Caixa</span><div><h6>Devolução Grátis</h6><p>Até 7 dias e seu dinheiro de volta!</p></div></div>
+      <div class="service"><span>Frete</span><div><h6>Frete Grátis</h6><p>Em compras acima de R$100</p></div></div>
+      <div class="service"><span>Suporte</span><div><h6>Suporte 24/7</h6><p>Atendimento a qualquer hora</p></div></div>
+      <div class="service"><span>Cadeado</span><div><h6>Pagamento Seguro</h6><p>Segurança garantida</p></div></div>
     </div>
   </section>
 
-  <!-- 🔹 SEÇÃO DE OFERTAS -->
+  <!-- Ofertas -->
   <section class="offers">
     <div class="container offer-grid">
-      <!-- Banners de oferta carregados via JavaScript -->
       <a class="offer card" href="#">
-        <div>
-          <p class="muted">Carregando ofertas...</p>
-          <h3>Aguarde</h3>
-          <h1 class="huge">--% <span>Off</span></h1>
-        </div>
-        <img src="data:image/svg+xml,%3Csvg ...%3E" alt="Oferta" loading="lazy" />
+        <div><p class="muted">Carregando ofertas...</p><h3>Aguarde</h3><h1 class="huge">--% <span>Off</span></h1></div>
+        <img src="data:image/svg+xml,%3Csvg..." alt="Oferta" loading="lazy" />
       </a>
       <a class="offer card" href="#">
-        <div>
-          <p class="muted">Carregando ofertas...</p>
-          <h3>Aguarde</h3>
-          <h1 class="huge">--% <span>Off</span></h1>
-        </div>
-        <img src="data:image/svg+xml,%3Csvg ...%3E" alt="Oferta" loading="lazy" />
+        <div><p class="muted">Carregando ofertas...</p><h3>Aguarde</h3><h1 class="huge">--% <span>Off</span></h1></div>
+        <img src="data:image/svg+xml,%3Csvg..." alt="Oferta" loading="lazy" />
       </a>
     </div>
   </section>
 
-  <!-- 🔹 LISTAGEM DE PRODUTOS -->
+  <!-- Produtos -->
   <section class="products">
     <div class="container">
       <div class="products-head">
@@ -156,21 +137,19 @@
           <button class="tab" data-tab="top">Mais Vendidos</button>
         </div>
       </div>
-
       <div class="grid cards" id="productGrid" data-active="all">
-        <!-- Produtos carregados dinamicamente -->
-        <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
-          <p style="color: #666;">Carregando produtos...</p>
+        <div style="grid-column:1/-1;text-align:center;padding:40px;">
+          <p style="color:#666;">Carregando produtos...</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 🔹 RODAPÉ -->
+  <!-- Footer -->
   <footer class="footer">
     <div class="container footer-grid">
       <div>
-         <img src="images/logologin1.png" alt="logo NilStore" class="ml-logo" loading="lazy">
+        <img src="images/logologin1.png" alt="logo NilStore" class="ml-logo" loading="lazy">
         <p class="muted">Produtos 3D para todos. Melhores preços e suporte.</p>
       </div>
       <div>
@@ -202,10 +181,8 @@
     </div>
   </footer>
 
-  <!-- Botão "voltar ao topo" -->
-  <button class="back-to-top" aria-label="Back to top">↑</button>
+  <button class="back-to-top" aria-label="Back to top">Subir</button>
 
-  <!-- 🔹 Script principal do site -->
   <script src="index.js"></script>
 </body>
 </html>

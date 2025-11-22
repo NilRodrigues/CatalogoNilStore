@@ -26,7 +26,7 @@ body {
   color: var(--dark);
   background: #ffffff;
   line-height: 1.6;
-  padding-top: 195px;
+  padding-top: 45px; /* Espaço para o topbar fixo */
 }
 
 img {
@@ -177,10 +177,7 @@ a {
 .brandbar.mercadolivre {
   background: #fcfcfc;
   padding: 12px 0;
-  position: fixed;
-  top: 45px;
-  width: 100%;
-  z-index: 9999;
+  position: relative;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   height: 68px;
 }
@@ -303,10 +300,7 @@ a {
   color: #fff;
   padding: 0;
   box-shadow: 0 2px 15px rgba(0, 102, 204, 0.2);
-  position: fixed;
-  top: 113px;
-  width: 100%;
-  z-index: 9998;
+  position: relative;
   backdrop-filter: blur(10px);
   transition: transform 0.3s;
   height: 64px;
@@ -1102,15 +1096,7 @@ a {
 /* ===== Responsive ===== */
 @media (max-width: 992px) {
   body {
-    padding-top: 160px;
-  }
-
-  .brandbar.mercadolivre {
-    top: 50px;
-  }
-
-  .navwrap {
-    top: 108px;
+    padding-top: 45px;
   }
 
   .ml-grid {
@@ -1138,7 +1124,7 @@ a {
 
 @media (max-width: 768px) {
   body {
-    padding-top: 200px;
+    padding-top: 45px;
   }
 
   .topbar .container {
@@ -1154,7 +1140,6 @@ a {
 
   .brandbar.mercadolivre {
     padding: 8px 0;
-    top: 80px;
   }
 
   .ml-grid {
@@ -1167,7 +1152,6 @@ a {
   }
 
   .navwrap {
-    top: 138px;
     padding: 8px 0;
   }
 
@@ -1243,7 +1227,7 @@ a {
 
 @media (max-width: 480px) {
   body {
-    padding-top: 240px;
+    padding-top: 45px;
   }
 
   .topbar {
@@ -1256,16 +1240,8 @@ a {
     font-size: 0.75rem;
   }
 
-  .brandbar.mercadolivre {
-    top: 100px;
-  }
-
   .ml-logo {
     height: 28px;
-  }
-
-  .navwrap {
-    top: 158px;
   }
 
   .nav-list {
