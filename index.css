@@ -1,24 +1,15 @@
 /* ==========================================================================
    BASE / FUNDAMENTOS
-   - Variáveis CSS para cores, raios e sombras (facilitam manutenção temática)
-   - Reset mínimo (box-sizing, altura do documento)
-   - Tipografia e cores globais
-   - Utilitário .container com largura máxima fluida
-   -------------------------------------------------------------------------- */
+   ========================================================================== */
 
 :root{
-   --shadow:0 6px 18px rgba(0,0,0,.08); /* sombra suave usada em cards/caixas */
+   --shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
-/* Reset básico: garante previsibilidade de layout ao incluir paddings/bordas
-   na largura/altura calculadas, e altura total do documento para padrões
-   de 100vh em páginas grandes. */
 *{box-sizing:border-box}
 html { height: 100%; }
 body { min-height: 100vh; }
 
-/* Texto principal, paleta global e altura de linha confortável.
-   Observação: fontes do Google são aplicadas no HTML (index.html). */
 body{
   margin:0;
   font-family: 'Open Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
@@ -27,21 +18,15 @@ body{
   line-height:1.5;
 }
 
-/* Imagens responsivas por padrão e links herdando cor do contexto. */
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 
-/* Container centraliza conteúdo com largura máxima fluida:
-   - até 1200px, mas com respiro lateral de 8% (92% de largura). */
 .container{width:min(1200px,92%);margin-inline:auto}
 
 
 /* ==========================================================================
    SPINNER DE CARREGAMENTO
-   - Overlay de tela cheia exibido durante carregamentos
-   - Classe .show controla visibilidade (opacidade/visibility)
-   - Animação de rotação para o ponto central
-   -------------------------------------------------------------------------- */
+   ========================================================================== */
 .spinner{
   position:fixed;
   inset:0;
@@ -50,32 +35,26 @@ a{color:inherit;text-decoration:none}
   background:rgba(255,255,255,1);
   opacity:0;
   visibility:hidden;transition:.35s ease;
-  z-index:9999; /* acima de todos os elementos da interface */
+  z-index:9999;
 }
-/* Estado visível do spinner */
 .spinner.show{
   opacity:1;
   visibility:visible
 }
-/* Ponto giratório */
 .spinner-dot{
   width:3rem;
   height:3rem;
   border-radius:50%;
   border:4px solid;
   border-top-color:transparent;
-  animation:spin 1s linear infinite; /* rotação contínua */
+  animation:spin 1s linear infinite;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 
 
 /* ==========================================================================
    TOPBAR (BARRA SUPERIOR FIXA)
-   - Fixa no topo com sombra de borda inferior
-   - Define padding no <body> para não sobrepor conteúdo
-   - Layout flexível com três regiões: esquerda, centro e direita
-   -------------------------------------------------------------------------- */
-/* 🔹 Topbar fixa no topo */
+   ========================================================================== */
 .topbar {
   position: fixed;
   top: 0;
@@ -85,15 +64,13 @@ a{color:inherit;text-decoration:none}
   border-bottom: 1px solid #e9ecef;
   font-size: 0.9rem;
   z-index: 10000;
-  height: 45px; /* Defina altura fixa */
+  height: 45px;
 }
 
-/* 🔹 Compensa altura das barras no conteúdo */
 body {
-  padding-top: 195px; /* mantém o espaço abaixo da topbar/brandbar/navbar */
+  padding-top: 195px;
 }
 
-/* Container interno organiza as três áreas em linha (flex) */
 .topbar .container {
   display: flex;
   justify-content: space-between;
@@ -101,15 +78,14 @@ body {
   padding: 8px 20px;
 }
 
-/* Estilização de links e separadores na topbar */
 .topbar a {
   text-decoration: none;
 }
-/* Regiões esquerda, centro e direita */
+
 .muted {
   color: #6c757d;
 }
-/* Separador simples entre links */
+
 .sep {
   margin: 0 6px;
   color: #adb5bd;
@@ -118,16 +94,11 @@ body {
 
 /* ==========================================================================
    DROPDOWN (MENU DO USUÁRIO)
-   - Botão discreto e profissional
-   - Menu posicionando absoluto abaixo do botão
-   - Animação leve de entrada
-   - Estado "open" controla exibição
-   -------------------------------------------------------------------------- */
+   ========================================================================== */
 .dropdown {
   position: relative;
 }
 
-/* Botão com aparência clean, largura mínima e tipografia discreta */
 .dropdown-toggle {
   background: #f8f9fa;
   border: 1px solid #ced4da;
@@ -144,14 +115,13 @@ body {
   gap: 8px;
   transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
 }
-/* Efeito de hover com leve realce e elevação */
+
 .dropdown-toggle:hover {
   background: #e9ecef;
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
   transform: translateY(-1px);
 }
 
-/* Painel do menu: largura da do botão, sombra sutil e borda leve */
 .dropdown-menu {
   position: absolute;
   top: calc(100% + 6px);
@@ -167,82 +137,81 @@ body {
   animation: dropdownFade 0.2s ease forwards;
   z-index: 10002;
 }
-/* Itens do menu com padding confortável e transições suaves */
+
 .dropdown-menu a {
   padding: 10px 16px;
   border-radius: 0;
   color: #212529;
   transition: background 0.2s, color 0.2s;
 }
-/* Efeito de hover com realce de fundo e cor primária */
+
 .dropdown-menu a:hover {
   background: #f1f3f5;
   color: #00a8e8;
 }
 
-/* Animação suave de fade + leve deslocamento vertical */
 @keyframes dropdownFade {
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Estado aberto do dropdown */
 .dropdown.open .dropdown-menu {
   display: flex;
 }
 
-/* Responsividade básica da topbar: empilha itens e mantém menu à direita */
 @media (max-width: 768px) {
   .topbar {
     height: auto;
     min-height: 45px;
+    position: fixed;
+    top: 0;
   }
-  /* Container empilha itens verticalmente */
+  
   .topbar .container {
     flex-direction: column;
     gap: 8px;
     padding: 10px 15px;
   }
-  /* Centraliza todas as regiões */
+  
   .topbar-left,
   .topbar-center,
   .topbar-right {
     width: 100%;
     text-align: center;
   }
-  /* Centraliza itens na direita */
+  
   .topbar-right {
     display: flex;
     justify-content: center;
   }
-  /* Ajustes no botão dropdown */
+  
   .dropdown-toggle {
     min-width: 150px;
     font-size: 0.75rem;
     padding: 5px 15px;
   }
-  /* Menu centralizado abaixo do botão */
+  
   .dropdown-menu {
     width: 150px;
     left: 50%;
     transform: translateX(-50%);
   }
-  /* Compensa altura das barras no conteúdo */
+  
   body {
-    padding-top: 230px;
+    padding-top: 90px;
   }
 }
-/* Ajustes para telas muito pequenas */
+
 @media (max-width: 480px) {
   .topbar .container {
     padding: 8px 10px;
   }
-  /* Reduz fonte das regiões */
+  
   .topbar-left,
   .topbar-center {
     font-size: 0.8rem;
   }
-  /* Ajustes no botão dropdown */
+  
   .dropdown-toggle {
     min-width: 130px;
     font-size: 0.7rem;
@@ -253,34 +222,29 @@ body {
 
 /* ==========================================================================
    BRANDBAR (ESTILO MERCADO LIVRE) + BUSCA
-   - Faixa clara com logo, busca e ícones rápidos
-   - Campo de busca com foco destacado (borda azul)
-   - Ícones com efeito de hover (scale)
-   -------------------------------------------------------------------------- */
-/* ===== Brandbar ===== */
+   ========================================================================== */
 .brandbar.mercadolivre {
   background: #fcfcfc;
   padding: 12px 0;
   position: fixed;
-  top: 45px; /* Ajustado para ficar logo abaixo da topbar */
+  top: 45px;
   width: 100%;
   z-index: 9999;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  height: 68px; /* Defina altura fixa */
+  height: 68px;
 }
-/* Container interno com grid flexível */
+
 .ml-grid {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 16px;
 }
-/* Logo com tamanho fixo */
+
 .ml-logo {
   height: 32px;
 }
 
-/* Caixa de busca com borda suave; ao focar, recebe aro azul (focus ring) */
 .ml-search {
   display: flex;
   align-items: center;
@@ -292,11 +256,11 @@ body {
   box-shadow: 0 0 0 2px transparent;
   transition: box-shadow 0.2s ease;
 }
-/* Efeito de foco com aro azul */
+
 .ml-search:focus-within {
   box-shadow: 0 0 0 2px #00a8e8;
 }
-/* Estilo do input de busca */
+
 .ml-search input {
   flex: 1;
   border: none;
@@ -304,7 +268,7 @@ body {
   font-size: 0.95rem;
   outline: none;
 }
-/* Botão de busca com ícone */
+
 .ml-btn {
   border: none;
   background: none;
@@ -313,23 +277,24 @@ body {
   font-size: 1rem;
   color: #555;
 }
-/* Efeito de hover para o botão */
+
 .ml-btn:hover { 
   color: #000;
  }
- /* Ícone do botão com tamanho fixo */
+ 
 .ml-btn img {
   width: 20px;
   height: 20px;
   object-fit: contain;
 }
 
-/* Responsividade da Brandbar */
 @media (max-width: 992px) {
   .brandbar.mercadolivre {
     height: auto;
     min-height: 68px;
     padding: 10px 0;
+    position: fixed;
+    top: 45px;
   }
   
   .ml-grid {
@@ -351,18 +316,25 @@ body {
 
 @media (max-width: 768px) {
   .brandbar.mercadolivre {
-    top: auto;
+    top: 90px;
     position: fixed;
     padding: 8px 0;
+    height: auto;
+    min-height: 60px;
   }
   
   .ml-grid {
     gap: 10px;
     padding: 0 10px;
+    flex-direction: column;
   }
   
   .ml-logo {
     height: 24px;
+  }
+  
+  .ml-search {
+    width: 100%;
   }
   
   .ml-search input {
@@ -375,42 +347,54 @@ body {
   }
   
   body {
-    padding-top: 250px;
+    padding-top: 220px;
   }
 }
 
 @media (max-width: 480px) {
+  .brandbar.mercadolivre {
+    top: 75px;
+    min-height: 55px;
+    padding: 6px 0;
+  }
+  
   .ml-grid {
     gap: 8px;
+    padding: 0 8px;
   }
   
   .ml-logo {
     height: 22px;
   }
   
+  .ml-search {
+    width: 100%;
+    max-width: 100%;
+  }
+  
   .ml-search input {
     font-size: 0.8rem;
     padding: 7px 10px;
+  }
+  
+  body {
+    padding-top: 200px;
   }
 }
 
 
 /* ==========================================================================
    NAVBAR / BARRA DE NAVEGAÇÃO
-   - Faixa azul em gradiente, "gruda" no topo ao rolar (sticky)
-   - Grid flex entre categorias (opcional) e menu principal
-   - Links com hover levemente elevado
-   -------------------------------------------------------------------------- */
-/* 🔹 Navbar fixa abaixo da brandbar */
+   ========================================================================== */
 .navwrap {
   position: fixed;
-  top: 113px; /* 45 + 68 */
+  top: 113px;
   left: 0;
   width: 100%;
   background: linear-gradient(135deg, #003459 0%, #007ea7 100%);
   z-index: 9998;
 }
-/* Container interno com grid flexível */
+
 .nav-grid {
   display: flex;
   align-items: center;
@@ -422,14 +406,11 @@ body {
 
 /* ==========================================================================
    CATEGORIAS (BOTÃO + LISTA)
-   - Botão com transparência e feedback visual (hover/expanded)
-   - Lista suspensa com cartão flutuante e badges por item
-   -------------------------------------------------------------------------- */
-/* ===== CATEGORIAS ===== */
+   ========================================================================== */
 .categories {
   position: relative;
 }
-/* Botão de categorias com visual translúcido e borda suave */
+
 .cat-toggle {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
@@ -445,28 +426,28 @@ body {
   gap: 8px;
   letter-spacing: 0.3px;
 }
-/* Efeito de hover com leve elevação e realce */
+
 .cat-toggle:hover {
   background: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.4);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-/* Estado expandido com fundo mais claro */
+
 .cat-toggle[aria-expanded="true"] {
   background: rgba(255, 255, 255, 0.25);
   border-color: rgba(255, 255, 255, 0.5);
 }
-/* Ícone de seta rotaciona ao expandir */
+
 .cat-toggle-icon {
   font-size: 1.2em;
   transition: transform 0.3s;
 }
-/* Rotação da seta quando expandido */
+
 .cat-toggle[aria-expanded="true"] .cat-toggle-icon {
   transform: rotate(90deg);
 }
-/* Lista de categorias como cartão flutuante */
+
 .cat-list {
   position: absolute;
   top: calc(100% + 12px);
@@ -483,7 +464,7 @@ body {
   animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: top;
 }
-/* Animação de entrada suave */
+
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -494,11 +475,11 @@ body {
     transform: translateY(0) scale(1);
   }
 }
-/* Esconde a lista quando necessário */
+
 .cat-list[hidden] {
   display: none !important;
 }
-/* Estilo dos itens da lista com badges */
+
 .cat-list li {
   display: flex;
   justify-content: space-between;
@@ -508,12 +489,12 @@ body {
   transition: all 0.2s;
   cursor: pointer;
 }
-/*  Efeito de hover com leve realce e deslocamento */
+
 .cat-list li:hover {
   background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
   transform: translateX(4px);
 }
-/* Estilo do link e do badge */
+
 .cat-list li a {
   color: #212529;
   text-decoration: none;
@@ -521,7 +502,7 @@ body {
   flex: 1;
   font-size: 0.95rem;
 }
-/* Estilo do badge com contagem */
+
 .cat-list li span {
   background: #00a8e8;
   color: #fff;
@@ -536,15 +517,11 @@ body {
 
 /* ==========================================================================
    NAVEGAÇÃO (LINKS PRINCIPAIS)
-   - Menu horizontal à direita
-   - Primeiro item empurra demais para a esquerda (margin-right:auto)
-   - Hover com leve realce de fundo translúcido
-   -------------------------------------------------------------------------- */
-/* ===== NAVBAR ===== */
+   ========================================================================== */
 .navbar {
   flex: 1;
 }
-/* Lista de navegação em linha (flex) */
+
 .nav-list {
   display: flex;
   align-items: center;
@@ -555,11 +532,11 @@ body {
   margin: 0;
   padding: 0;
 }
-/* Primeiro item empurra os demais para a direita */
+
 .nav-list li:first-child {
   margin-right: auto;
 }
-/* Estilo dos links com padding e bordas arredondadas */
+
 .nav-list a {
   color: #fff;
   text-decoration: none;
@@ -571,7 +548,7 @@ body {
   font-size: 0.95rem;
   letter-spacing: 0.3px;
 }
-/* Efeito de hover com fundo translúcido e leve elevação */
+
 .nav-list a:hover {
   background: rgba(255, 255, 255, 0.15);
   transform: translateY(-2px);
@@ -580,9 +557,7 @@ body {
 
 /* ==========================================================================
    BOTÃO CTA "FAÇA SUA ENCOMENDA 3D"
-   - Visual destacado com gradiente, sombra e seta animada no :after
-   -------------------------------------------------------------------------- */
-/* ===== BOTÃO CTA ===== */
+   ========================================================================== */
 .btn-3d {
   background: #003459 !important;
   background: linear-gradient(135deg, #003459 0%, #007ea7 100%) !important;
@@ -596,20 +571,20 @@ body {
   align-items: center;
   gap: 8px;
 }
-/* Efeito de hover com elevação e mudança de cor */
+
 .btn-3d:hover {
   background: #003459 !important;
   transform: translateY(-3px) !important;
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3) !important;
   border-color: rgba(255, 255, 255, 0.4);
 }
-/* Efeito de clique */
+
 .btn-3d::after {
   content: '→';
   font-size: 1.2em;
   transition: transform 0.2s;
 }
-/* Animação da seta ao hover */
+
 .btn-3d:hover::after {
   transform: translateX(4px);
 }
@@ -617,13 +592,10 @@ body {
 
 /* ==========================================================================
    RESPONSIVIDADE DA NAVBAR/CATEGORIAS
-   - Ajustes progressivos para tablets e smartphones
-   - Botões compactam, cat-list reduz largura, CTA ocupa 100%
-   -------------------------------------------------------------------------- */
-  /* Responsivo para telas menores */
+   ========================================================================== */
 @media (max-width: 992px) {
   .navwrap {
-    top: auto;
+    top: 113px;
     position: fixed;
   }
   
@@ -655,16 +627,13 @@ body {
   .cat-list {
     width: 260px;
   }
-  
-  body {
-    padding-top: 270px;
-  }
 }
 
-/* Responsivo para tablets e smartphones */
 @media (max-width: 768px) {
   .navwrap {
+    top: 150px;
     padding: 8px 0;
+    position: fixed;
   }
   
   .nav-grid {
@@ -717,13 +686,13 @@ body {
   }
   
   body {
-    padding-top: 290px;
+    padding-top: 280px;
   }
 }
 
-/* Responsivo para telas muito pequenas */
 @media (max-width: 480px) {
   .navwrap {
+    top: 130px;
     padding: 6px 0;
   }
   
@@ -777,45 +746,40 @@ body {
   }
   
   body {
-    padding-top: 310px;
+    padding-top: 260px;
   }
 }
 
 
 /* ==========================================================================
    CAROUSEL (HERO) + PROMO LATERAL
-   - Grade de duas colunas: slider (flexível) + card promo (340px)
-   - Slider com botões de navegação, paginação (dots) e conteúdo textual
-   - Promo lateral com badge (economia) e conteúdo de oferta
-   - NOVO: Links clicáveis para produtos
-   -------------------------------------------------------------------------- */
-/* ===== CAROUSEL ===== */
+   ========================================================================== */
 .carousel{
   background:#FFFFFF;
   padding:50px 0
 }
-/* Grade do carousel: slider + promo lateral */
+
 .carousel-grid{
   display:grid;
   grid-template-columns:1fr 400px;
   gap:24px;
   align-items:stretch
 }
-/* Container principal do slider */
+
 .slider{
   position:relative;
   overflow:hidden;
   border-radius:16px;
   background:#fff;
   box-shadow:var(--shadow);
-  height: 400px; /* defina conforme desejar */
+  height: 400px;
 }
-/* Container dos slides - layout em linha (flex) */
+
 .slides{
   display:flex;
   transition:transform .6s ease
 }
-/* Cada slide individual */
+
 .slide{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -823,75 +787,76 @@ body {
   min-width:100%;
   align-items:center
   }
-/* Imagem do slide */
+
 .slide-media img{
   width:100%;
   height:100%;
   object-fit:cover
 }
-/* Conteúdo textual do slide */
+
 .slide-content{
   padding:28px 28px 36px
 }
-/* Kicker (texto pequeno acima do título) */
+
 .slide-content .kicker{
   letter-spacing:3px;
   text-transform:uppercase;
   color:#00171F;
   margin:0 0 12px
 }
-/*Título e descrição do slide*/
+
 .slide-content h2{
   font:700 2.2rem 'Roboto', sans-serif;
   margin:0 0 12px;
   color:#00171F;
 }
+
 .slide-content p{
   margin:0 0 18px;
   color:#333
 }
-/* Botão do carousel ("Comprar agora") */
+
 .blue-btn {
   background: linear-gradient(135deg, #003459, #007ea7);
   border: none;
   color: #fff;
   font-weight: 700;
   padding: 12px 26px;
-  border-radius: 50px; /* 🔹 formato arredondado */
+  border-radius: 50px;
   box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
   transition: all 0.3s ease;
   display: inline-block;
   text-align: center;
   letter-spacing: 0.5px;
 }
-/* Hover com leve elevação e mudança de cor */
+
 .blue-btn:hover {
   background: linear-gradient(135deg, #01548f, #0094c5);
-  transform: translateY(-3px); /* 🔹 leve elevação */
+  transform: translateY(-3px);
   box-shadow: 0 6px 18px rgba(0, 123, 255, 0.4);
 }
-/* Active com efeito de clique */
+
 .blue-btn:active {
   transform: scale(0.97);
   box-shadow: 0 3px 8px rgba(0, 123, 255, 0.3);
 }
-/* Preço do slide */
+
 .carousel-price {
   margin: 8px 0 14px;
   font-size: 1.1rem;
   color: #00af09;
 }
-/* Preço riscado (desconto) e preço atual */
+
 .carousel-price del {
   color: #ff0202;
   margin-right: 8px;
 }
-/* Preço em destaque (strong) */
+
 .carousel-price strong {
   color: #00af09;
   font-weight: 700;
 }
-/* Botões de navegação do slider */
+
 .slider .nav {
   position: absolute;
   bottom: 10px;
@@ -910,11 +875,11 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.11);
   transition: all 0.3s ease;
 }
-/* Posicionamento dos botões prev/next */
+
 .slider .nav.prev{
   right:70px
 }
-/* Paginação em dots (botões circulares) */
+
 .dots{
   position:absolute;
   left:18px;
@@ -923,8 +888,8 @@ body {
   gap:8px;
   z-index:10
 }
-/* Estilo dos botões dos dots */
-dots button{
+
+.dots button{
   width:9px;
   height:9px;
   border-radius:50%;
@@ -932,29 +897,23 @@ dots button{
   background:#ced4da;
   cursor:pointer
 }
-/* Dot ativo com cor primária */
 
 .dots button[aria-selected="true"] {
   background: #00a8e8;
   box-shadow: 0 0 8px #a8a7a7;
 }
-/* ==========================================================================
-  PROMO LATERAL
-   -------------------------------------------------------------------------- */
-/* Card promocional lateral */
 
 .promo{
   position: relative;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: var(--shadow);
-  color:#00af09;                 /* texto claro sobre a foto */
-  background: transparent;    /* sem fundo sólido */
-  aspect-ratio: 4;        /* altura do card (ajuste se quiser) */
+  color:#00af09;
+  background: transparent;
+  aspect-ratio: 4;
   max-width: 450px;
 }
 
-/* Link da promo - envolve imagem e conteúdo */
 .promo-link {
   text-decoration: none;
   color: inherit;
@@ -964,21 +923,20 @@ dots button{
   transition: transform 0.3s ease;
 }
 
-
-/* imagem ocupa todo o card */
 .promo-image{
   position: absolute;
   inset: 0;
   z-index: 0;
 }
+
 .promo-image img{
   width:100%; height:100%; object-fit:cover;
   filter:brightness(.8);
   transition:filter .3s ease;
 }
+
 .promo:hover .promo-image img{ filter:brightness(1); }
 
-/* camada de gradiente para legibilidade */
 .promo::after{
   content:"";
   position:absolute; inset:0;
@@ -986,13 +944,11 @@ dots button{
   z-index:1;
 }
 
-/* badge por cima */
 .promo-badge{
   position:absolute; top:14px; left:14px; z-index:3;
   display:flex; gap:10px; align-items:center;
 }
 
-/* Estilo dos elementos da badge */
 .promo-badge .save{
   background:#00af09;
   color:#ffffff;
@@ -1000,14 +956,13 @@ dots button{
   padding:6px 12px
 }
 
-/* conteúdo por cima da imagem */
 .promo-content{
   position:absolute; inset:0; z-index:2;
   padding:16px;
   display:flex; flex-direction:column; justify-content:flex-end;
   gap:8px;
 }
-/* Título da badge com efeito brilhoso */
+
 .promo-badge .title {
   font-weight: 900;
   background: linear-gradient(90deg,
@@ -1023,7 +978,7 @@ dots button{
   -webkit-text-fill-color: transparent;
   animation: shine 2.5s linear infinite;
 }
-/* Animação do brilho */
+
 @keyframes shine {
   0% {
     background-position: 200% center;
@@ -1033,12 +988,10 @@ dots button{
   }
 }
 
-/* textos */
 .promo-content .category{ color:#ffffff; }
 .promo-content .name{ color:#ffffff; font-weight:700; font-size:1.25rem; }
 .promo .price del{ color:#ff0202; margin-right:8px; }
 
-/* Responsividade do Carousel */
 @media (max-width: 1200px) {
   .carousel-grid {
     grid-template-columns: 1fr 350px;
@@ -1337,24 +1290,21 @@ dots button{
 
 /* ==========================================================================
    SERVICES / BENEFÍCIOS
-   - Faixa de cartões simples com ícones e textos curtos
-   - Bordas sutis para separar visualmente
-   -------------------------------------------------------------------------- */
-/*  Estilo da seção de serviços */
+   ========================================================================== */
 .services {
   border-top: 1px solid #f1f3f5;
   border-bottom: 1px solid #f1f3f5;
   background: #f8f8f8b0;
   padding: 20px 0;
 }
-/* Grade responsiva dos serviços */
+
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 24px;
   justify-items: center;
 }
-/* Estilo individual de cada serviço */
+
 .service {
   padding: 20px 24px;
   border: 1px solid #e9ecef;
@@ -1365,31 +1315,31 @@ dots button{
   max-width: 280px;
   text-align: left;
 }
-/* Efeito de hover para destaque */
+
 .service:hover {
   border-color: #007ea7;
   box-shadow: 0 4px 12px rgba(0, 102, 204, 0.1);
   transform: translateY(-2px);
 }
-/* Layout flexível do conteúdo do serviço */
+
 .service span {
   font-size: 2.5rem;
   line-height: 1;
   flex-shrink: 0;
 }
-/* Conteúdo textual do serviço */
+
 .service div {
   flex: 1;
   min-width: 0;
 }
-/* Título do serviço */
+
 .service h6 {
   margin: 0 0 6px;
   font-weight: 700;
   font-size: 1rem;
   color: #00171F;
 }
-/* Descrição do serviço */
+
 .service p {
   margin: 0;
   color: #00171F;
@@ -1397,23 +1347,22 @@ dots button{
   line-height: 1.4;
 }
 
-/* Responsivo */
 @media (max-width: 1200px) {
   .services-grid {
     gap: 20px;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
-  /* Ajuste do tamanho dos serviços */
+  
   .service {
     padding: 16px 20px;
     max-width: 240px;
   }
-  /* Ajuste do tamanho do ícone */
+  
   .service span {
     font-size: 2rem;
   }
 }
-/*  Responsivo para tablets */
+
 @media (max-width: 992px) {
   .services {
     padding: 35px 0;
@@ -1423,7 +1372,7 @@ dots button{
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 16px;
   }
-  /* Ajuste do tamanho dos serviços */
+  
   .service {
     max-width: 260px;
     padding: 18px 20px;
@@ -1441,17 +1390,17 @@ dots button{
     font-size: 0.85rem;
   }
 }
-/* Responsivo para smartphones */
+
 @media (max-width: 768px) {
   .services {
     padding: 30px 0;
   }
-  /* Serviços em duas colunas */
+  
   .services-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 14px;
   }
-  /* Serviços ocupam largura disponível */
+  
   .service {
     max-width: 100%;
     padding: 16px 18px;
@@ -1461,7 +1410,7 @@ dots button{
     font-size: 2rem;
   }
 }
-/*  Responsivo para telas muito pequenas */
+
 @media (max-width: 480px) {
   .services {
     padding: 25px 0;
@@ -1480,11 +1429,11 @@ dots button{
   .service span {
     font-size: 1.8rem;
   }
-  /* Ajuste do tamanho do título */ 
+  
   .service h6 {
     font-size: 0.9rem;
   }
-  /* Ajuste do tamanho do texto */
+  
   .service p {
     font-size: 0.8rem;
   }
@@ -1493,21 +1442,18 @@ dots button{
 
 /* ==========================================================================
    OFFERS / BANNERS PROMOCIONAIS
-   - Grade em 2 colunas, cards com sombra e imagem cortada (cover)
-   - Tipografia "huge" para percentuais e destaque de cor na palavra "Off"
-  -------------------------------------------------------------------------- */
-/* Estilo da seção de ofertas */  
+   ========================================================================== */
 .offers{
   background:#FFFFFF;
   padding:36px 0
 }
-/* Grade das ofertas */
+
 .offer-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:24px
 }
-/* Estilo individual de cada oferta */
+
 .offer.card{
   display:flex;
   align-items:center;
@@ -1518,23 +1464,22 @@ dots button{
   padding:18px;
   box-shadow:var(--shadow)
 }
-/* Imagem da oferta com cover e bordas arredondadas */
+
 .offer.card img{
   width:220px;
   height:140px;
   object-fit:cover;
   border-radius:12px
 }
-/* Conteúdo textual da oferta */
+
 .huge{
   font:700 2.5rem 'Roboto', sans-serif;color:#00af09;
 }
-/* Destaque de cor na palavra "Off" */
+
 .huge span{
   color:#00af09;
 }
 
-/* Responsividade das Ofertas */
 @media (max-width: 992px) {
   .offers {
     padding: 30px 0;
@@ -1604,18 +1549,11 @@ dots button{
 
 /* ==========================================================================
    PRODUCTS / LISTAGEM
-   - Cabeçalho com tabs (Todos, Recentes, Destaques, Mais Vendidos)
-   - Grade em 4 colunas com cartões, zoom na imagem no hover
-   - Badges (primary/secondary), botões sobrepostos (overlay-btn)
-   - NOVO: Links para página de detalhes
-   -------------------------------------------------------------------------- */
-/* Estilo da seção de produtos */
+   ========================================================================== */
 .products{
   padding:56px 0
 }
 
-
-/* Cabeçalho com título e tabs */
 .products-head{
   display:flex;
   align-items:center;
@@ -1623,13 +1561,13 @@ dots button{
   gap:16px;
   margin-bottom:18px
 }
-/* Título da seção */
+
 .tabs{
   display:flex;
   gap:10px;
   flex-wrap:wrap
 }
-/* Estilo dos botões das tabs */
+
 .tab{
   border-radius:999px;
   border:1px solid #e9ecef;
@@ -1638,27 +1576,26 @@ dots button{
   cursor:pointer;
   font-weight:600
 }
-/* Tab ativa com destaque de cor */
+
 .tab.active{
   background:#003459;
   color:#fff;
   border-color:#007ea7;
 }
-/* Grade dos cartões de produto */
+
 .grid.cards{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); /* 🔹 largura mínima por card */
-  gap:24px;  /* 🔹 espaçamento entre cards */
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:24px;
   align-items:stretch;
 }
 
-/* Link do produto - remove estilo padrão de link */
 .product-link {
   text-decoration: none;
   color: inherit;
   display: block;
 }
-/* Estilo do cartão de produto */
+
 .card.product{
   background:#b9b8b8;
   border:1px solid #070707;
@@ -1667,27 +1604,27 @@ dots button{
   position:relative;
   transition:transform .2s
 }
-/*  Efeito de hover com leve elevação */
+
 .card.product:hover{
   transform:translateY(-10px)
 }
-/* Estilo da mídia do produto */
+
 .product-media{
   position:relative;
   overflow:hidden
 }
-/* Imagem do produto com cover e transição */
+
 .product-media img{
   width:100%;
   height:220px;
   object-fit:cover;
   transition:transform .5s
 }
-/* Zoom na imagem ao passar o mouse */
+
 .card.product:hover .product-media img{
   transform:scale(1.06)
 }
-/* Estilo das badges */
+
 .badge{
   position:absolute;
   top:12px;
@@ -1697,15 +1634,15 @@ dots button{
   font-size:.85rem;
   color:#fff
 }
-/* Badges primária e secundária */
+
 .badge.primary{
   background:#003459;
 }
-/*  Badges secundária */
+
 .badge.secondary{
   background:#003459;
 }
-/* Botão sobreposto (overlay) */
+
 .overlay-btn{
   position:absolute;
   inset:0;
@@ -1715,33 +1652,34 @@ dots button{
   opacity:0;
   transition:.3s
 }
-/* Mostra o botão overlay no hover */
+
 .card.product:hover .overlay-btn{
   opacity:1
 }
-/* Estilo do conteúdo do botão overlay */
+
 .product-body{
   padding:16px;
   text-align:right
 }
-/*  Estilo do texto do produto */
+
 .product-body .category{
   color:#6c757d
 }
+
 .product-info {
   padding: 12px 16px;
 }
-/* Nome do produto */
+
 .product-body .name{
   font-weight:700;
   display:block;
   margin-top:6px
 }
-/* Preço do produto */
+
 .product-body .price{
   margin-top:8px
 }
-/* Estilo do preço riscado (desconto) */
+
 .product-actions{
   border-top:1px solid #f1f3f5;
   padding:12px 16px;
@@ -1750,13 +1688,9 @@ dots button{
   justify-content:space-between
 }
 
-/* ==========================================================================
-   CARDS DE PRODUTOS (LISTAGEM)
-   - Cards responsivos com sombra, borda e hover suave
-   -------------------------------------------------------------------------- */
 .product-card {
   background: #fff;
-  border: 1.5px solid #e0e0e0;      /* 🔹 borda visível */
+  border: 1.5px solid #e0e0e0;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -1766,14 +1700,12 @@ dots button{
   position: relative;
 }
 
-/* Hover com leve destaque */
 .product-card:hover {
   border-color: #00a8e8;
   box-shadow: 0 6px 18px rgba(0, 168, 232, 0.2);
   transform: translateY(-3px);
 }
 
-/* Imagem do produto */
 .product-card img {
   width: 100%;
   height: 220px;
@@ -1781,7 +1713,6 @@ dots button{
   border-bottom: 1px solid #e9ecef;
 }
 
-/* Conteúdo textual */
 .product-card .info {
   padding: 16px;
   flex: 1;
@@ -1798,41 +1729,33 @@ dots button{
   font-size: 0.9rem;
   margin: 0;
 }
-/* Estilo da avaliação (rating) */
+
 .rating{
   opacity:.9
 }
 
-/* =========================================================
-   🎨 Correção de cores dos novos cards (.product-card)
-   ========================================================= */
 .product-card {
-  color: #00171F; /* cor base do texto */
+  color: #00171F;
   background: #ffffff;
 }
 
-/* Categoria */
 .product-card .product-category {
   color: #6c757d;
 }
 
-/* Nome do produto */
 .product-card .product-name {
   color: #003459;
   font-weight: 700;
 }
 
-/* Preço */
 .product-card .product-price strong {
   color: #00af09;
 }
+
 .product-card .product-price del {
   color: #ff0202;
 }
 
-/* ===========================================
-   ✨ Transição suave dos produtos (fade)
-   =========================================== */
 #productGrid {
   transition: opacity 0.4s ease;
   opacity: 1;
@@ -1855,8 +1778,6 @@ dots button{
   }
 }
 
-
-/* Responsividade dos Produtos */
 @media (max-width: 1200px) {
   .products {
     padding: 48px 0;
@@ -2032,27 +1953,25 @@ dots button{
 
 /* ==========================================================================
    FOOTER / RODAPÉ
-   - Fundo escuro com 4 colunas (marca + 3 colunas de links/contato)
-   - Tipografia clara e separador superior na faixa inferior
-   -------------------------------------------------------------------------- */
+   ========================================================================== */
 .footer{
   background:#00171F;
   color:#cbd5e1;
   margin-top:36px
 }
-/* Grade do footer com 4 colunas */
+
 .footer-grid{
   display:grid;
   grid-template-columns:2fr 1fr 1fr 1fr;
   gap:20px;
   padding:36px 0
 }
-/* Estilo da marca no footer */
+
 .footer .brand.small h3{
   margin:0;
   color:#fff
 }
-/* Estilo dos títulos das colunas */
+
 .link-list{
   list-style:none;
   margin:0;
@@ -2060,7 +1979,7 @@ dots button{
   display:grid;
   gap:8px
 }
-/* Título das listas de links */
+
 .footer-bottom{
   border-top:1px solid rgba(255,255,255,.08);
   padding:16px 0;
@@ -2068,14 +1987,11 @@ dots button{
   text-align:center
 }
 
-/* Aumentar logo apenas no footer */
 .footer .ml-logo {
-  height: 100px;   /* ajusta o valor até ficar como você quiser */
+  height: 100px;
   width: auto;
 }
 
-
-/* Responsividade do Footer */
 @media (max-width: 992px) {
   .footer {
     margin-top: 30px;
@@ -2145,9 +2061,7 @@ dots button{
 
 /* ==========================================================================
    BACK TO TOP / VOLTAR AO TOPO
-   - Botão flutuante no canto inferior direito
-   - Aparece (opacity/visibility) quando a classe .show é aplicada via JS
-   -------------------------------------------------------------------------- */
+   ========================================================================== */
 .back-to-top{
   position:fixed;
   right:20px;
@@ -2167,13 +2081,12 @@ dots button{
   transition:.25s;
   z-index:9999;
 }
-/* Mostra o botão quando a classe .show é aplicada */
+
 .back-to-top.show{
   opacity:1;
   visibility:visible
 }
 
-/* Responsividade do Back to Top */
 @media (max-width: 768px) {
   .back-to-top {
     width: 40px;
@@ -2196,8 +2109,7 @@ dots button{
 
 /* ==========================================================================
    BREAKPOINTS / RESPONSIVE - AJUSTES GERAIS
-   - Ajustes adicionais de responsividade geral
-   -------------------------------------------------------------------------- */
+   ========================================================================== */
 @media (max-width: 1200px){
   .container {
     width: min(1200px, 94%);
@@ -2235,14 +2147,12 @@ dots button{
   }
 }
 
-/* 🔧 Garante que o conteúdo principal tenha altura mínima */
 main {
   display: block;
   min-height: calc(100vh - 195px);
-  padding-bottom: 60px; /* espaço antes do footer */
+  padding-bottom: 60px;
 }
 
-/* Ajustes responsivos do main */
 @media (max-width: 992px) {
   main {
     min-height: calc(100vh - 270px);
@@ -2262,50 +2172,16 @@ main {
     min-height: calc(100vh - 310px);
     padding-bottom: 30px;
   }
-}
 
-/* ==========================================================================
-   AJUSTES FINAIS DE RESPONSIVIDADE PARA ELEMENTOS ESPECÍFICOS
-   -------------------------------------------------------------------------- */
-
-/* Ajustes para elementos de formulário em telas pequenas */
-@media (max-width: 480px) {
   input[type="text"],
   input[type="email"],
   input[type="password"],
   input[type="search"],
   textarea,
   select {
-    font-size: 16px; /* Previne zoom automático no iOS */
+    font-size: 16px;
   }
-}
-
-/* Ajustes para imagens responsivas */
-@media (max-width: 768px) {
-  img {
-    height: auto;
-  }
-}
-
-/* Ajustes para tabelas em telas pequenas */
-@media (max-width: 640px) {
-  table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-/* Previne overflow horizontal */
-@media (max-width: 768px) {
-  body {
-    overflow-x: hidden;
-  }
-}
-
-/* Ajustes de espaçamento vertical em telas pequenas */
-@media (max-width: 480px) {
+  
   section {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -2314,41 +2190,7 @@ main {
   .container > * + * {
     margin-top: 16px;
   }
-}
-
-/* Melhorias de performance para animações em dispositivos móveis */
-@media (max-width: 768px) {
-  * {
-    -webkit-tap-highlight-color: transparent;
-  }
   
-  .slide,
-  .card,
-  .service,
-  .offer {
-    will-change: auto;
-  }
-}
-
-/* Ajustes para touch devices */
-@media (hover: none) and (pointer: coarse) {
-  .nav-list a:hover,
-  .dropdown-toggle:hover,
-  .cat-toggle:hover,
-  .service:hover,
-  .card.product:hover {
-    transform: none;
-  }
-  
-  .nav-list a:active,
-  .dropdown-toggle:active,
-  .cat-toggle:active {
-    transform: scale(0.98);
-  }
-}
-
-/* Otimizações de texto para dispositivos móveis */
-@media (max-width: 480px) {
   p {
     text-align: left;
     hyphens: auto;
@@ -2361,7 +2203,36 @@ main {
   }
 }
 
-/* Ajustes para orientação landscape em dispositivos móveis */
+@media (max-width: 640px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+  
+  img {
+    height: auto;
+  }
+  
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .slide,
+  .card,
+  .service,
+  .offer {
+    will-change: auto;
+  }
+}
+
 @media (max-width: 768px) and (orientation: landscape) {
   body {
     padding-top: 160px;
@@ -2382,7 +2253,22 @@ main {
   }
 }
 
-/* Ajustes para telas muito grandes */
+@media (hover: none) and (pointer: coarse) {
+  .nav-list a:hover,
+  .dropdown-toggle:hover,
+  .cat-toggle:hover,
+  .service:hover,
+  .card.product:hover {
+    transform: none;
+  }
+  
+  .nav-list a:active,
+  .dropdown-toggle:active,
+  .cat-toggle:active {
+    transform: scale(0.98);
+  }
+}
+
 @media (min-width: 1400px) {
   .container {
     width: min(1400px, 90%);
@@ -2401,7 +2287,6 @@ main {
   }
 }
 
-/* Ajustes para impressão */
 @media print {
   .topbar,
   .brandbar,
@@ -2427,7 +2312,6 @@ main {
   }
 }
 
-/* Acessibilidade: foco visível para navegação por teclado */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -2437,7 +2321,6 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 
-/* Modo de alto contraste */
 @media (prefers-contrast: high) {
   .card,
   .service,
@@ -2452,7 +2335,6 @@ textarea:focus-visible {
   }
 }
 
-/* Preferência por movimento reduzido */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -2462,9 +2344,4 @@ textarea:focus-visible {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-/* Dark mode (opcional - pode ser ativado via JavaScript) */
-@media (prefers-color-scheme: dark) {
-  /* Os estilos de dark mode podem ser adicionados aqui se desejado */
 }
