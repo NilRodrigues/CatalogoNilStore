@@ -1,10 +1,11 @@
 // ====== CONFIGURAÇÃO DO GOOGLE SHEETS ======
-const PRODUCTS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTeUFccjOnJgo0qkldrvB454NZ8pqvMVabJuPIG4W7aJgxS5oA_9KCeOzxmKnbsOcxqvJcmb976A5pd/pub?gid=0&single=true&output=csv';
+const PRODUCTS_URL =
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vTeUFccjOnJgo0qkldrvB454NZ8pqvMVabJuPIG4W7aJgxS5oA_9KCeOzxmKnbsOcxqvJcmb976A5pd/pub?gid=0&single=true&output=csv';
 
 // Estado global
 let allProducts = [];
 
-// ====== INICIALIZAÇÃO ======
+// ====== INICIALIZAÇÃO SPINNER ======
 window.addEventListener('load', () => {
   const spinner = document.getElementById('spinner');
   if (spinner) {
@@ -15,7 +16,7 @@ window.addEventListener('load', () => {
 });
 
 // ====== DROPDOWNS (topbar) ======
-document.querySelectorAll('[data-dropdown]').forEach(drop => {
+document.querySelectorAll('[data-dropdown]').forEach((drop) => {
   const toggle = drop.querySelector('.dropdown-toggle');
   const menu = drop.querySelector('.dropdown-menu');
   const setOpen = (open) => {
@@ -51,7 +52,7 @@ const catList = document.getElementById('catList');
 
 catToggle?.addEventListener('click', () => {
   const isHidden = catList.hasAttribute('hidden');
-  
+
   if (isHidden) {
     catList.removeAttribute('hidden');
     catToggle.setAttribute('aria-expanded', 'true');
@@ -70,14 +71,15 @@ document.addEventListener('click', (e) => {
 });
 
 // Filtrar produtos por categoria
-catList?.querySelectorAll('a').forEach(link => {
+catList?.querySelectorAll('a').forEach((link) => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
     const category = link.dataset.category;
-    
-    // Remover active de todos os filtros
-    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-    
+
+    document
+      .querySelectorAll('.filter-btn')
+      .forEach((btn) => btn.classList.remove('active'));
+
     filterProductsByCategory(category);
   });
 });
@@ -86,10 +88,11 @@ function filterProductsByCategory(category) {
   const cards = document.querySelectorAll('.product-card');
   let visibleCount = 0;
 
-  cards.forEach(card => {
-    const productCategory = card.querySelector('.product-category')?.textContent.toLowerCase() || '';
+  cards.forEach((card) => {
+    const productCategory =
+      card.querySelector('.product-category')?.textContent.toLowerCase() || '';
     const shouldShow = productCategory.includes(category);
-    
+
     if (shouldShow) {
       card.style.display = '';
       visibleCount++;
@@ -98,13 +101,11 @@ function filterProductsByCategory(category) {
     }
   });
 
-  // Atualizar contador no hero
   const heroP = document.querySelector('.hero p');
   if (heroP) {
     heroP.textContent = `${visibleCount} produtos`;
   }
 
-  // Mostrar mensagem se nenhum produto foi encontrado
   const emptyMsg = document.getElementById('emptyMessage');
   if (visibleCount === 0) {
     emptyMsg.style.display = 'block';
@@ -124,11 +125,11 @@ function parseCSVLine(line) {
   const result = [];
   let current = '';
   let inQuotes = false;
-  
+
   for (let i = 0; i < line.length; i++) {
     const char = line[i];
     const nextChar = line[i + 1];
-    
+
     if (char === '"') {
       if (inQuotes && nextChar === '"') {
         current += '"';
@@ -143,7 +144,7 @@ function parseCSVLine(line) {
       current += char;
     }
   }
-  
+
   result.push(current.trim());
   return result;
 }
@@ -151,14 +152,14 @@ function parseCSVLine(line) {
 function parseCSV(text) {
   const lines = text.trim().split('\n');
   if (lines.length < 2) return [];
-  
+
   const headers = parseCSVLine(lines[0]);
   const items = [];
 
   for (let i = 1; i < lines.length; i++) {
     const line = lines[i].trim();
     if (!line) continue;
-    
+
     const values = parseCSVLine(line);
     if (values.length < headers.length) continue;
 
@@ -176,15 +177,14 @@ function parseCSV(text) {
 async function renderProducts(products) {
   const grid = document.getElementById('productsGrid');
   const emptyMsg = document.getElementById('emptyMessage');
-  
+
   if (!grid) return;
-  
-  // Atualizar contador no hero
+
   const heroP = document.querySelector('.hero p');
   if (heroP && products && products.length > 0) {
     heroP.textContent = `${products.length} produtos`;
   }
-  
+
   if (!products || products.length === 0) {
     grid.innerHTML = `
       <div class="loading-message">
@@ -199,11 +199,11 @@ async function renderProducts(products) {
   grid.innerHTML = '';
 
   products.forEach((p) => {
-    const oldPriceHTML = p.oldPrice && parseFloat(p.oldPrice) > 0 
-      ? `<del>${fmtBRL(p.oldPrice)}</del>` 
-      : '';
+    const oldPriceHTML =
+      p.oldPrice && parseFloat(p.oldPrice) > 0
+        ? `<del>${fmtBRL(p.oldPrice)}</del>`
+        : '';
 
-    // Determinar badge
     let badgeHTML = '';
     const tags = (p.tags || '').toLowerCase();
     if (tags.includes('new')) {
@@ -223,7 +223,10 @@ async function renderProducts(products) {
       <div class="product-image">
         ${badgeHTML}
         <a href="produtodetalhe.html?id=${encodeURIComponent(p.productId)}">
-          <img src="${p.image || 'https://via.placeholder.com/400x300?text=Sem+Imagem'}" 
+          <img src="${
+            p.image ||
+            'https://via.placeholder.com/400x300?text=Sem+Imagem'
+          }"
                alt="${p.name || 'Produto'}"
                onerror="this.src='https://via.placeholder.com/400x300?text=Erro'">
         </a>
@@ -248,11 +251,11 @@ async function renderProducts(products) {
 
 // ====== FILTROS ======
 const filterBtns = document.querySelectorAll('.filter-btn');
-filterBtns.forEach(btn => {
+filterBtns.forEach((btn) => {
   btn.addEventListener('click', () => {
-    filterBtns.forEach(b => b.classList.remove('active'));
+    filterBtns.forEach((b) => b.classList.remove('active'));
     btn.classList.add('active');
-    
+
     const filter = btn.dataset.filter;
     filterProducts(filter);
   });
@@ -262,10 +265,10 @@ function filterProducts(filter) {
   const cards = document.querySelectorAll('.product-card');
   let visibleCount = 0;
 
-  cards.forEach(card => {
+  cards.forEach((card) => {
     const tags = card.dataset.tags || '';
     const shouldShow = filter === 'all' || tags.includes(filter);
-    
+
     if (shouldShow) {
       card.style.display = '';
       visibleCount++;
@@ -274,13 +277,11 @@ function filterProducts(filter) {
     }
   });
 
-  // Atualizar contador no hero
   const heroP = document.querySelector('.hero p');
   if (heroP) {
     heroP.textContent = `${visibleCount} produtos`;
   }
 
-  // Mostrar mensagem se nenhum produto foi encontrado
   const emptyMsg = document.getElementById('emptyMessage');
   if (visibleCount === 0) {
     emptyMsg.style.display = 'block';
@@ -317,33 +318,78 @@ function sortProducts(sortType) {
     }
   });
 
-  // Reordenar no DOM
-  cards.forEach(card => grid.appendChild(card));
+  cards.forEach((card) => grid.appendChild(card));
+}
+
+// ====== 🔍 BUSCA (produtos.html) ======
+function setupSearch() {
+  const searchBox = document.querySelector('.ml-search');
+  if (!searchBox) return;
+
+  const input = searchBox.querySelector('input');
+  const button = searchBox.querySelector('.ml-btn');
+  if (!input || !button) return;
+
+  const doSearch = () => {
+    if (!allProducts || !allProducts.length) return;
+
+    const term = input.value.trim().toLowerCase();
+
+    if (!term) {
+      renderProducts(allProducts);
+      return;
+    }
+
+    const filtered = allProducts.filter((p) => {
+      const text = [
+        p.name || '',
+        p.category || '',
+        p.description || '',
+        p.tags || ''
+      ]
+        .join(' ')
+        .toLowerCase();
+      return text.includes(term);
+    });
+
+    renderProducts(filtered);
+  };
+
+  button.addEventListener('click', (e) => {
+    e.preventDefault();
+    doSearch();
+  });
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      doSearch();
+    }
+  });
 }
 
 // ====== CARREGAR PRODUTOS DO GOOGLE SHEETS ======
 async function loadProducts() {
   console.log('🔄 Carregando produtos do Google Sheets...');
-  
+
   const spinner = document.getElementById('spinner');
   if (spinner) spinner.classList.add('show');
 
   try {
     const response = await fetch(PRODUCTS_URL);
-    
+
     if (!response.ok) {
       throw new Error('Erro ao carregar produtos');
     }
 
     const csvText = await response.text();
     allProducts = parseCSV(csvText);
-    
+
     console.log(`✅ ${allProducts.length} produtos carregados`);
     await renderProducts(allProducts);
-
   } catch (error) {
     console.error('❌ Erro ao carregar produtos:', error);
-    
+
     const grid = document.getElementById('productsGrid');
     if (grid) {
       grid.innerHTML = `
@@ -372,3 +418,4 @@ async function loadProducts() {
 
 // ====== INICIALIZAÇÃO ======
 loadProducts();
+setupSearch();

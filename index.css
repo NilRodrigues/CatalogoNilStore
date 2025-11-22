@@ -2378,3 +2378,83 @@ body {
     padding-top: 90px !important;
   }
 }
+
+/* ==== Correção: afastar botão dos pontos do carrossel ==== */
+.slide-content {
+  padding-bottom: 80px; /* antes era 36px (definido lá em cima) */
+}
+
+/* ===== FIX: alinhar preço + botão no rodapé do slide ===== */
+.slide-content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* empurra preço + botão para baixo mantendo o espaçamento */
+.slide-content .carousel-price {
+  margin: auto 0 14px; /* topo automático, embaixo 14px */
+}
+
+/* ===== FIX: botão do carrossel alinhado e sem cortar ===== */
+.slider {
+  height: auto;          /* deixa crescer conforme o conteúdo */
+  min-height: 400px;     /* garante uma altura mínima bonita */
+}
+
+.slide {
+  align-items: stretch;  /* imagem e texto com a mesma altura da linha */
+}
+
+.slide-content {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 80px;  /* espaço pros pontos do carrossel */
+}
+
+/* texto com respiro, mas sem empurrar demais */
+.slide-content p {
+  margin-bottom: 12px;
+}
+
+/* preço “cola” no rodapé e o botão vem logo abaixo */
+.carousel-price {
+  margin-top: auto;
+  margin-bottom: 16px;
+}
+
+
+/* ===== CARROSSEL: DESKTOP (evitar corte da imagem + botão alinhado) ===== */
+@media (min-width: 993px) {
+  .slider {
+    height: auto;          /* cresce conforme o conteúdo */
+    min-height: 400px;     /* altura mínima bonita */
+  }
+
+  .slide {
+    align-items: stretch;  /* imagem e texto com mesma altura da linha */
+  }
+
+  .slide-media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 320px;     /* controla a altura máxima da foto */
+  }
+
+  .slide-media img {
+    width: 100%;
+    height: auto;          /* NÃO força mais 100% da altura */
+    object-fit: contain;   /* não corta a imagem */
+  }
+
+  .slide-content {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 72px;  /* espaço pros pontinhos do carrossel */
+  }
+
+  .carousel-price {
+    margin-top: auto;      /* empurra preço + botão para o rodapé */
+    margin-bottom: 16px;
+  }
+}

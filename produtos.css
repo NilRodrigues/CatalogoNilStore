@@ -982,3 +982,87 @@ body {
     padding-top: 90px !important;
   }
 }
+
+
+/* ===== NAVBAR - MOBILE (até 768px) ===== */
+@media (max-width: 768px) {
+  .navwrap {
+    padding: 8px 0;
+    height: auto;
+  }
+
+  .nav-grid {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: auto;
+  }
+
+  .categories {
+    order: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .navbar {
+    order: 1;
+    width: 100%;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .nav-list li {
+    width: 100%;
+  }
+
+  .nav-list a {
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+
+  .btn-3d {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
+/* ===== CORREÇÃO DO OVERLAP ENTRE BUSCA E NAVBAR ===== */
+@media (max-width: 768px) {
+
+  /* Aumenta a altura da área da busca automaticamente */
+  .brandbar.mercadolivre {
+    position: relative !important;
+    height: auto !important;
+    min-height: 110px !important;   /* antes 68px → agora espaço suficiente */
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    display: flex;
+    align-items: center;
+  }
+
+  .ml-grid {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ml-search {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Empurra a navbar azul para baixo conforme necessário */
+  .navwrap {
+    margin-top: 8px !important;
+    position: relative !important;
+    top: auto !important;
+  }
+}

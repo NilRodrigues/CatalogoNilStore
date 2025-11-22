@@ -1442,3 +1442,53 @@ body {
     text-align: center;
   }
 }
+
+/* ===== NAVBAR - MOBILE (até 768px) ===== */
+@media (max-width: 768px) {
+  .navwrap {
+    padding: 8px 0;
+    height: auto;
+  }
+
+  .nav-grid {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: auto;
+  }
+
+  .categories {
+    order: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .navbar {
+    order: 1;
+    width: 100%;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  .nav-list li {
+    width: 100%;
+  }
+
+  .nav-list a {
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+
+  .btn-3d {
+    width: 100%;
+    justify-content: center;
+  }
+}
