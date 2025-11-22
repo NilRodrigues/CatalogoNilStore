@@ -2342,3 +2342,39 @@ textarea:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+
+/* ===========================
+   AJUSTE HEADER MOBILE
+   =========================== */
+
+/* Só compensar a TOPBAR fixa */
+body {
+  padding-top: 60px !important;
+}
+
+/* Brandbar e navbar NUNCA fixas */
+.brandbar.mercadolivre {
+  position: relative !important;
+  top: auto !important;
+  min-height: 60px;
+}
+
+.navwrap {
+  position: relative !important;
+  top: auto !important;
+  width: 100%;
+}
+
+/* Ajuste extra para telas menores */
+@media (max-width: 768px) {
+  body {
+    padding-top: 80px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding-top: 90px !important;
+  }
+}
