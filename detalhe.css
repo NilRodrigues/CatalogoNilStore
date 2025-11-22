@@ -178,8 +178,10 @@ a {
   background: #fcfcfc;
   padding: 12px 0;
   position: relative;
+  width: 100%;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  height: 68px;
+  min-height: 68px;
+  height: auto;         /* antes era height: 68px; */
 }
 
 .ml-grid {
@@ -301,7 +303,6 @@ a {
   padding: 0;
   box-shadow: 0 2px 15px rgba(0, 102, 204, 0.2);
   position: relative;
-  width: 100%;
   backdrop-filter: blur(10px);
   transition: transform 0.3s;
   height: auto;        /* antes era 64px */
