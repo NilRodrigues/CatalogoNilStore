@@ -5,7 +5,7 @@ const PRODUCTS_URL =
 // Estado global
 let allProducts = [];
 
-// ====== INICIALIZAÇÃO SPINNER ======
+// ====== INICIALIZAÇÃO DO SPINNER ======
 window.addEventListener('load', () => {
   const spinner = document.getElementById('spinner');
   if (spinner) {
@@ -23,7 +23,7 @@ document.querySelectorAll('[data-dropdown]').forEach((drop) => {
     drop.classList.toggle('open', open);
     drop.setAttribute('aria-expanded', String(open));
   };
-  toggle.addEventListener('click', (e) => {
+  toggle?.addEventListener('click', (e) => {
     e.stopPropagation();
     setOpen(!drop.classList.contains('open'));
   });
@@ -50,7 +50,8 @@ backTop?.addEventListener('click', () => {
 const catToggle = document.querySelector('.cat-toggle');
 const catList = document.getElementById('catList');
 
-catToggle?.addEventListener('click', () => {
+catToggle?.addEventListener('click', (e) => {
+  e.stopPropagation();
   const isHidden = catList.hasAttribute('hidden');
 
   if (isHidden) {
@@ -70,28 +71,62 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// Filtrar produtos por categoria
+// ====== NORMALIZAÇÃO E MAPA DE CATEGORIAS ======
+const normalizeCategory = (str) =>
+  (str || '')
+    .toString()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+
+// chave = data-category do HTML
+const CATEGORY_ALIASES = {
+  acessorios: ['acessorios'],
+  'action-figures': ['action figures', 'action figure'],
+  trofeus: ['trofeus', 'trofeu', 'troféus', 'troféu'],
+  decoracoes: ['decoracao', 'decoracoes'],
+  colecionaveis: ['colecionaveis', 'colecionavel', 'colecionáveis'],
+  miniaturas: ['miniaturas', 'miniatura'],
+};
+
+// Filtrar produtos por categoria (menu de categorias)
 catList?.querySelectorAll('a').forEach((link) => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
-    const category = link.dataset.category;
+    const categoryKey = link.dataset.category;
 
     document
       .querySelectorAll('.filter-btn')
       .forEach((btn) => btn.classList.remove('active'));
 
-    filterProductsByCategory(category);
+    filterProductsByCategory(categoryKey);
+
+    catList.setAttribute('hidden', '');
+    catToggle?.setAttribute('aria-expanded', 'false');
   });
 });
 
-function filterProductsByCategory(category) {
+function filterProductsByCategory(categoryKey) {
   const cards = document.querySelectorAll('.product-card');
+  const emptyMsg = document.getElementById('emptyMessage');
+  const heroP = document.querySelector('.hero p');
+
+  if (!cards.length) return;
+
+  const keyNorm = normalizeCategory(categoryKey);
+  const aliases = CATEGORY_ALIASES[keyNorm] || [keyNorm];
+
   let visibleCount = 0;
 
   cards.forEach((card) => {
-    const productCategory =
-      card.querySelector('.product-category')?.textContent.toLowerCase() || '';
-    const shouldShow = productCategory.includes(category);
+    const productCategoryText =
+      card.querySelector('.product-category')?.textContent || '';
+    const productCategoryNorm = normalizeCategory(productCategoryText);
+
+    const shouldShow = aliases.some((alias) =>
+      productCategoryNorm.includes(normalizeCategory(alias)),
+    );
 
     if (shouldShow) {
       card.style.display = '';
@@ -101,23 +136,63 @@ function filterProductsByCategory(category) {
     }
   });
 
-  const heroP = document.querySelector('.hero p');
   if (heroP) {
     heroP.textContent = `${visibleCount} produtos`;
   }
 
-  const emptyMsg = document.getElementById('emptyMessage');
-  if (visibleCount === 0) {
-    emptyMsg.style.display = 'block';
-  } else {
-    emptyMsg.style.display = 'none';
+  if (emptyMsg) {
+    emptyMsg.style.display = visibleCount === 0 ? 'block' : 'none';
   }
+}
+
+// Atualiza contadores dinâmicos das categorias
+function updateCategoryCounts() {
+  if (!catList || !allProducts.length) return;
+
+  const items = catList.querySelectorAll('li');
+
+  items.forEach((li) => {
+    const link = li.querySelector('a');
+    const span = li.querySelector('span');
+    if (!link || !span) return;
+
+    const key = link.dataset.category;
+    const keyNorm = normalizeCategory(key);
+    const aliases = CATEGORY_ALIASES[keyNorm] || [keyNorm];
+
+    const count = allProducts.reduce((acc, p) => {
+      const prodCatNorm = normalizeCategory(p.category || p.Category || '');
+      if (!prodCatNorm) return acc;
+
+      const match = aliases.some((alias) =>
+        prodCatNorm.includes(normalizeCategory(alias)),
+      );
+      return match ? acc + 1 : acc;
+    }, 0);
+
+    span.textContent = count;
+  });
 }
 
 // ====== UTILIDADES ======
 const fmtBRL = (v) => {
-  const num = parseFloat(v);
-  if (isNaN(num)) return 'R$ 0,00';
+  if (v == null) return 'R$ 0,00';
+
+  const raw = String(v).trim();
+  if (!raw) return 'R$ 0,00';
+
+  // tenta extrair número da string
+  let s = raw.replace(/[^\d.,-]/g, '');
+  if (!s) return raw; // ex: "A combinar" → retorna texto puro
+
+  if (s.includes(',') && s.includes('.')) {
+    s = s.replace(/\./g, '').replace(',', '.');
+  } else if (s.includes(',')) {
+    s = s.replace(',', '.');
+  }
+
+  const num = Number(s);
+  if (Number.isNaN(num)) return raw;
   return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 };
 
@@ -191,11 +266,11 @@ async function renderProducts(products) {
         <p>Nenhum produto encontrado.</p>
       </div>
     `;
-    emptyMsg.style.display = 'block';
+    if (emptyMsg) emptyMsg.style.display = 'block';
     return;
   }
 
-  emptyMsg.style.display = 'none';
+  if (emptyMsg) emptyMsg.style.display = 'none';
   grid.innerHTML = '';
 
   products.forEach((p) => {
@@ -204,8 +279,8 @@ async function renderProducts(products) {
         ? `<del>${fmtBRL(p.oldPrice)}</del>`
         : '';
 
-    let badgeHTML = '';
     const tags = (p.tags || '').toLowerCase();
+    let badgeHTML = '';
     if (tags.includes('new')) {
       badgeHTML = '<div class="product-badge new">NEW</div>';
     } else if (tags.includes('featured')) {
@@ -215,7 +290,9 @@ async function renderProducts(products) {
     const card = document.createElement('article');
     card.className = 'product-card';
     card.dataset.tags = p.tags || 'all';
-    card.dataset.price = p.price || 0;
+
+    const numericPrice = parseFloat(p.price);
+    card.dataset.price = Number.isNaN(numericPrice) ? 0 : numericPrice;
     card.dataset.name = p.name || '';
     card.dataset.productId = p.productId;
 
@@ -226,7 +303,7 @@ async function renderProducts(products) {
           <img src="${
             p.image ||
             'https://via.placeholder.com/400x300?text=Sem+Imagem'
-          }"
+          }" 
                alt="${p.name || 'Produto'}"
                onerror="this.src='https://via.placeholder.com/400x300?text=Erro'">
         </a>
@@ -240,7 +317,7 @@ async function renderProducts(products) {
         </h3>
         <div class="product-price">
           ${oldPriceHTML}
-          <strong>${fmtBRL(p.price || 0)}</strong>
+          <strong>${fmtBRL(p.price)}</strong>
         </div>
       </div>
     `;
@@ -249,7 +326,7 @@ async function renderProducts(products) {
   });
 }
 
-// ====== FILTROS ======
+// ====== FILTROS (tags: all/new/featured/top) ======
 const filterBtns = document.querySelectorAll('.filter-btn');
 filterBtns.forEach((btn) => {
   btn.addEventListener('click', () => {
@@ -263,6 +340,9 @@ filterBtns.forEach((btn) => {
 
 function filterProducts(filter) {
   const cards = document.querySelectorAll('.product-card');
+  const heroP = document.querySelector('.hero p');
+  const emptyMsg = document.getElementById('emptyMessage');
+
   let visibleCount = 0;
 
   cards.forEach((card) => {
@@ -277,16 +357,12 @@ function filterProducts(filter) {
     }
   });
 
-  const heroP = document.querySelector('.hero p');
   if (heroP) {
     heroP.textContent = `${visibleCount} produtos`;
   }
 
-  const emptyMsg = document.getElementById('emptyMessage');
-  if (visibleCount === 0) {
-    emptyMsg.style.display = 'block';
-  } else {
-    emptyMsg.style.display = 'none';
+  if (emptyMsg) {
+    emptyMsg.style.display = visibleCount === 0 ? 'block' : 'none';
   }
 }
 
@@ -301,6 +377,8 @@ sortSelect?.addEventListener('change', (e) => {
 
 function sortProducts(sortType) {
   const grid = document.getElementById('productsGrid');
+  if (!grid) return;
+
   const cards = Array.from(grid.querySelectorAll('.product-card'));
 
   cards.sort((a, b) => {
@@ -321,7 +399,7 @@ function sortProducts(sortType) {
   cards.forEach((card) => grid.appendChild(card));
 }
 
-// ====== 🔍 BUSCA (produtos.html) ======
+// ====== BUSCA ======
 function setupSearch() {
   const searchBox = document.querySelector('.ml-search');
   if (!searchBox) return;
@@ -345,7 +423,7 @@ function setupSearch() {
         p.name || '',
         p.category || '',
         p.description || '',
-        p.tags || ''
+        p.tags || '',
       ]
         .join(' ')
         .toLowerCase();
@@ -387,6 +465,7 @@ async function loadProducts() {
 
     console.log(`✅ ${allProducts.length} produtos carregados`);
     await renderProducts(allProducts);
+    updateCategoryCounts();
   } catch (error) {
     console.error('❌ Erro ao carregar produtos:', error);
 

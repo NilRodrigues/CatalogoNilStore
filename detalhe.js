@@ -6,12 +6,15 @@ const PLANILHA_CSV =
 
 // ====== UTILIDADES ======
 const fmtBRL = (v) => {
-  if (v == null || v === "") return "R$ 0,00";
+  if (v == null) return "R$ 0,00";
 
-  let s = String(v).trim();
-  s = s.replace(/[^\d.,-]/g, ""); // remove R$, espaços etc
+  const raw = String(v).trim();
+  if (!raw) return "R$ 0,00";
 
-  // Se tem ponto e vírgula, assume pt-BR (ponto milhar, vírgula decimal)
+  // tenta extrair número da string
+  let s = raw.replace(/[^\d.,-]/g, "");
+  if (!s) return raw; // ex: "A combinar" → mostra o texto puro
+
   if (s.includes(",") && s.includes(".")) {
     s = s.replace(/\./g, "").replace(",", ".");
   } else if (s.includes(",")) {
@@ -19,14 +22,13 @@ const fmtBRL = (v) => {
   }
 
   const num = Number(s);
-  if (Number.isNaN(num)) return "R$ 0,00";
+  if (Number.isNaN(num)) return raw;
   return num.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 };
 
 // pega preço com fallback de nomes, caso mude no futuro
 const getPrice = (p) => p.price ?? p.Price ?? p.preco ?? "";
 const getOldPrice = (p) => p.oldPrice ?? p.priceold ?? p.oldprice ?? "";
-
 
 function parseCSVLine(line) {
   const result = [];
@@ -98,8 +100,9 @@ function renderProduct(p) {
     p.image5 || p.image,
   ];
 
-  document.getElementById("mainImage").src = images[0];
-  document.getElementById("mainImage").alt = p.name;
+  const mainImage = document.getElementById("mainImage");
+  mainImage.src = images[0];
+  mainImage.alt = p.name;
 
   images.forEach((img, index) => {
     const thumbImg = document.getElementById(`thumb${index}`);
@@ -109,7 +112,7 @@ function renderProduct(p) {
     }
   });
 
-  // Preço (corrigido)
+  // Preço
   const precoEl = document.getElementById("produtoPreco");
   const price = getPrice(p);
   const oldPrice = getOldPrice(p);
@@ -119,7 +122,7 @@ function renderProduct(p) {
     <strong>${fmtBRL(price)}</strong>
   `;
 
-  // Descrição do produto
+  // Descrição
   const descriptionEl = document.getElementById("productDescription");
   if (p.description) {
     descriptionEl.innerHTML = p.description
@@ -147,7 +150,7 @@ function renderProduct(p) {
     <tr><td>Condição</td><td>${p.condition || "Não especificado"}</td></tr>
   `;
 
-  // Atualizar botão de compra
+  // Botão de compra
   const buyBtn = document.querySelector(".buy-now-btn");
 
   if (p.ml_url && p.ml_url.trim() !== "") {
@@ -156,7 +159,9 @@ function renderProduct(p) {
     buyBtn.onclick = null;
   } else {
     const qty = document.getElementById("quantity").value;
-    const message = `Olá! Gostaria de comprar:\n\n*${p.name}*\nQuantidade: ${qty}\nPreço: ${fmtBRL(price)}`;
+    const message = `Olá! Gostaria de comprar:\n\n*${p.name}*\nQuantidade: ${qty}\nPreço: ${fmtBRL(
+      price
+    )}`;
     buyBtn.href = `https://wa.me/5519999151713?text=${encodeURIComponent(
       message
     )}`;
@@ -165,7 +170,9 @@ function renderProduct(p) {
   }
 
   window.produtoAtual = p;
-  document.getElementById("spinner")?.classList.remove("show");
+
+  const spinner = document.getElementById("spinner");
+  if (spinner) spinner.classList.remove("show");
 }
 
 // ====== CARREGAR PRODUTO ======
@@ -194,11 +201,12 @@ async function carregarProduto() {
   } catch (error) {
     console.error("Erro ao carregar produto:", error);
     alert("Erro ao carregar os dados do produto.");
-    document.getElementById("spinner")?.classList.remove("show");
+    const spinner = document.getElementById("spinner");
+    if (spinner) spinner.classList.remove("show");
   }
 }
 
-// ====== DROPDOWN MENU ======
+// ====== DROPDOWN MENU (topo) ======
 document.querySelectorAll("[data-dropdown]").forEach((dropdown) => {
   const toggle = dropdown.querySelector(".dropdown-toggle");
   const setOpen = (open) => dropdown.classList.toggle("open", open);
@@ -240,7 +248,9 @@ function updateWhatsAppLink() {
   if (!p.ml_url || p.ml_url.trim() === "") {
     const qty = qtyInput.value;
     const price = getPrice(p);
-    const message = `Olá! Gostaria de comprar:\n\n*${p.name}*\nQuantidade: ${qty}\nPreço: ${fmtBRL(price)}`;
+    const message = `Olá! Gostaria de comprar:\n\n*${p.name}*\nQuantidade: ${qty}\nPreço: ${fmtBRL(
+      price
+    )}`;
     buyBtn.href = `https://wa.me/5519999151713?text=${encodeURIComponent(
       message
     )}`;
@@ -266,7 +276,9 @@ document.querySelectorAll(".tab").forEach((tab) => {
   tab.addEventListener("click", () => {
     const targetTab = tab.getAttribute("data-tab");
 
-    document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
+    document
+      .querySelectorAll(".tab")
+      .forEach((t) => t.classList.remove("active"));
     document
       .querySelectorAll(".tab-content")
       .forEach((c) => c.classList.remove("active"));

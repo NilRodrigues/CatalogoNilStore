@@ -18,8 +18,23 @@ const createPlaceholder = (width, height, text) => {
 
 /* 💰 FORMATAÇÃO / CSV */
 const fmtBRL = (v) => {
-  const num = parseFloat(v);
-  if (isNaN(num)) return 'R$ 0,00';
+  if (v == null) return 'R$ 0,00';
+
+  const raw = String(v).trim();
+  if (!raw) return 'R$ 0,00';
+
+  // tenta extrair número da string
+  let s = raw.replace(/[^\d.,-]/g, '');
+  if (!s) return raw; // ex: "A combinar" → retorna texto puro
+
+  if (s.includes(',') && s.includes('.')) {
+    s = s.replace(/\./g, '').replace(',', '.');
+  } else if (s.includes(',')) {
+    s = s.replace(',', '.');
+  }
+
+  const num = Number(s);
+  if (Number.isNaN(num)) return raw;
   return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 };
 
@@ -498,7 +513,9 @@ function renderProducts(products) {
     const card = document.createElement('article');
     card.className = 'product-card';
     card.dataset.tags = p.tags || 'all';
-    card.dataset.price = p.price || 0;
+
+    const numericPrice = parseFloat(p.price);
+    card.dataset.price = Number.isNaN(numericPrice) ? 0 : numericPrice;
     card.dataset.name = p.name || '';
     card.dataset.productId = p.productId;
 
@@ -521,7 +538,7 @@ function renderProducts(products) {
           <h3 class="product-name">${p.name || 'Nome do Produto'}</h3>
           <div class="product-price">
             ${oldPriceHTML}
-            <strong>${fmtBRL(p.price || 0)}</strong>
+            <strong>${fmtBRL(p.price)}</strong>
           </div>
         </div>
       </a>`;
